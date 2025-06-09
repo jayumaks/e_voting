@@ -1,9 +1,11 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "vote";
+$username = "aauekpo5_voting";
+$password = "=W4(Q=fedyjG";
+$dbname = "aauekpo5_voting";
 //mysql and db connection
+
+
 
 $con = new mysqli($servername, $username, $password, $dbname);
 
