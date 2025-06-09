@@ -29,7 +29,9 @@
                  <a href="voters_excel.php"><button type="button" style = "margin-right:14px;" id ="print" class = "pull-right btn btn-info"><i class = "fa fa-print"></i>Export Voters to Excel</button></a>
                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 				
-				<a  href = "activate_accounts.php"class = "btn btn-danger btn-outline pull-right" style = "margin-right:12px;" name = "go"><i>Activate Voter Accounts</i> </a>
+				<!-- <a  href = "activate_accounts.php"class = "btn btn-danger btn-outline pull-right" style = "margin-right:12px;" name = "go"><i>Activate Voter Accounts</i> </a> -->
+                 <a href="activate_accounts.php?id=<?php echo $row['id_number']; ?>">Activate</a>
+
 				<a  href = "deactivate_accounts.php"class = "btn btn-danger btn-outline pull-right" style = "margin-right:12px;" name = "go"><i>Deactivate Voter Accounts</i> </a>
                 
 				<br />

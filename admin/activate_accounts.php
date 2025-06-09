@@ -4,7 +4,7 @@ require_once 'dbcon.php';
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     $id_number = $conn->real_escape_string($_GET['id']); // Sanitize input
 
-    $sql = "UPDATE voters SET status = 'Active' WHERE id = '$id_number'";
+    $sql = "UPDATE voters SET status = 'Active' WHERE id_number = '$id_number'";
     $update = $conn->query($sql);
 
     if ($update) {
@@ -14,6 +14,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
     }
 
 } else {
-    echo "Error: Student ID not provided or invalid.";
+    echo "Error: ID not provided or invalid.";
 }
 ?>
