@@ -6,7 +6,6 @@ $dbname = "aauekpo5_voting";
 //mysql and db connection
 
 
-
 $con = new mysqli($servername, $username, $password, $dbname);
 
 if ($con->connect_error) {  //error check

@@ -30,8 +30,6 @@
                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 				
 				<a  href = "activate_accounts.php"class = "btn btn-danger btn-outline pull-right" style = "margin-right:12px;" name = "go"><i>Activate Voter Accounts</i> </a>
-                 
-
 				<a  href = "deactivate_accounts.php"class = "btn btn-danger btn-outline pull-right" style = "margin-right:12px;" name = "go"><i>Deactivate Voter Accounts</i> </a>
                 
 				<br />

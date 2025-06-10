@@ -1,5 +1,4 @@
 <?php
-	// $conn = new mysqli('localhost', 'root', '', 'vote');
 	$conn = new mysqli('localhost', 'aauekpo5_voting', '=W4(Q=fedyjG', 'aauekpo5_voting');
 	
 	if(!$conn){
