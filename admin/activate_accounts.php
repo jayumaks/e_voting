@@ -6,7 +6,7 @@ require_once 'dbcon.php'; // Ensure this connects successfully and assigns to $c
 // 1. Get the student_id securely and validate it
 // Assuming the student_id comes from a GET request (e.g., voters.php?student_id=E1034567)
 // Adjust to $_POST['student_id'] if it's from a form submission
-$student_id = isset($_GET['student_id']) ? $_POST['student_id'] : ''; // Get as string, default to empty
+$student_id = isset($_POST['student_id']) ? $_POST['student_id'] : ''; // Get as string, default to empty
 
 // Trim whitespace and ensure it's not empty after trimming
 $student_id = trim($student_id);
