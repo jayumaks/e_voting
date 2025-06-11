@@ -11,7 +11,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header">Current Collage Students</h3>
+                    <h3 class="page-header">Current  Students</h3>
 				<a href="download.php" class="btn btn-success btn-outline"><i class="glyphicon glyphicon-save"></i> Import Students Data</a>
                 <a href="add_student_id.php" class="btn btn-success btn-outline"><i class="glyphicon glyphicon-save"></i> Add Student ID</a>	
                
@@ -30,6 +30,7 @@
                                         <tr>
                                          
                                             <th>Student ID</th>
+                                            <th>Matric Number</th>
                                             <th>Names</th>
                                             <th>Year Registered</th>
                                             
@@ -46,6 +47,7 @@
                                       
 											<tr>
 												<td><?php echo $row1 ['id_number'];?></td>
+                                                <td><?php echo $row1 ['matric_number'];?></td>
 												<td><?php echo $row1 ['names'];?></td>
 												<td><?php echo $row1 ['started'];?></td>		
 											</tr>
