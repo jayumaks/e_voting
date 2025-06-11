@@ -27,7 +27,7 @@
 		}else{
 			?>
 			<script type="text/javascript">
-			alert('Your account is not Actived')
+			alert('Your account is not Activated')
 			</script>
 			<?php
 		}

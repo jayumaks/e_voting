@@ -28,7 +28,7 @@
 		$count1 = $query->fetch_array();
 		if ($count1 == 0) {
 			if ($password == $password1) {
-				$conn->query("insert into voters(id_number, password, firstname,lastname, gender,prog_study,year_level,status, date) VALUES('$id_number', '".md5($password)."','$firstname','$lastname', '$gender','$prog_study', '$year_level','Unvoted', '$date')");
+				$conn->query("insert into voters(id_number, password, firstname,lastname, gender,prog_study,year_level,status, date) VALUES('$id_number', '".md5($password)."','$firstname','$lastname', '$gender','$prog_study', '$year_level','Active', '$date')");
 			?>
 	            <script>
 			        alert( 'Successfully Registered');
