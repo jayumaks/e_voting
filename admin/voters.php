@@ -83,12 +83,7 @@
                                                 <td><?php echo $row1 ['account'];?></td>
                                                 <td><?php echo $row1 ['status'];?></td>
                                                 <td><?php echo $row1 ['date'];?></td>       
-                                        <td>
-                                           <form method="POST" action="activate_accounts.php" style="display: inline-block; margin-right: 12px;">
-    <input type="text" name="student_id" placeholder="Enter Student ID to activate">
-    <button type="submit" class="btn btn-danger btn-outline" name="go">Activate Specific Account</button>
-</form>
-                                        </td>
+                                        
                                     </tr>       
                                             
                                         
