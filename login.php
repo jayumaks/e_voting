@@ -12,14 +12,14 @@ include ('head.php'); ?>
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px; /* More top space */
+  padding: 20px 20px; /* More top space */
 }
 
     .login-panel {
       background: #ffffff;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 30px;
+      padding: 20px;
       width: 100%;
       max-width: 400px;
     }
