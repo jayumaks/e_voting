@@ -1,36 +1,29 @@
 <?php
+require_once 'admin/dbcon.php';
 
-	require_once 'admin/dbcon.php';
+if (isset($_POST['login'])) {
+    $idno = $_POST['idno'];
+    $password = md5($_POST['password']);
 
-	if(isset($_POST['login'])){
-		$idno=$_POST['idno'];
-		$password=$_POST['password'];
+    // First, check if user exists
+    $userCheck = $conn->query("SELECT * FROM voters WHERE id_number = '$idno' AND password = '$password'") or die(mysqli_error($conn));
 
-		$result = $conn->query("SELECT * FROM voters WHERE id_number = '$idno' && password = '".md5($password)."' && `account` = 'active' && `status` = 'Unvoted'") or die(mysqli_errno());
-		$row = $result->fetch_array();
-		$voted = $conn->query("SELECT * FROM `voters` WHERE id_number = '$idno' && password = '".md5($password)."' && `status` = 'Voted'")->num_rows;
-		$numberOfRows = $result->num_rows;
+    if ($userCheck->num_rows > 0) {
+        $user = $userCheck->fetch_assoc();
 
-		if ($numberOfRows > 0){
-			session_start();
-			$_SESSION['voters_id'] = $row['voters_id'];
-			header('location:vote.php');
-		}
-
-
-		if($voted == 1){
-			?>
-			<script type="text/javascript">
-			alert('Sorry You Already Voted')
-			</script>
-			<?php
-		}else{
-			?>
-			<script type="text/javascript">
-			alert('Your account is not Activated')
-			</script>
-			<?php
-		}
-
-	}
+        if (strtolower($user['account']) != 'active') {
+            echo "<script>alert('Your account is not activated');</script>";
+        } elseif (strtolower($user['status']) == 'voted') {
+            echo "<script>alert('Sorry, you have already voted');</script>";
+        } else {
+            // Successful login
+            $_SESSION['voters_id'] = $user['voters_id'];
+            header('location:vote.php');
+            exit();
+        }
+    } else {
+        // No user found with those credentials
+        echo "<script>alert('Invalid ID number or password');</script>";
+    }
+}
 ?>
