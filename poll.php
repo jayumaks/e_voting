@@ -4,7 +4,7 @@
 <div class="container">
     <h3>Opinion Poll</h3>
     <?php
-        require 'dbcon.php';
+        require 'admin/dbcon.php';
         $poll = $conn->query("SELECT * FROM poll_question ORDER BY id DESC LIMIT 1")->fetch_assoc();
         $options = $conn->query("SELECT * FROM poll_option WHERE poll_id = {$poll['id']}");
     ?>
