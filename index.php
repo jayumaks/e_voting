@@ -5,7 +5,7 @@
 
     <heading class="voters_heading">
         <center><h1>
-        BAMSSA ELECTION</h1>
+        STUDENT ELECTION</h1>
     </heading>
     <?php include 'slider.php';?>
     <div class="image">

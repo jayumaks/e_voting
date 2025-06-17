@@ -5,7 +5,7 @@
 	<?php include 'side_bar.php'; ?>
 	<div id="wrapper">
 	</div>
-	<form method="POST" action="vote_result.php" style="margin-top: 60px;">
+	<form method="POST" action="vote_result.php" style="margin-left:25%; margin-right:25%;">
 		<div class="col-lg-6">
 
 			<div class="panel panel-primary">
