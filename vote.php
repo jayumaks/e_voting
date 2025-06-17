@@ -6,9 +6,9 @@
 	<div id="wrapper">
 	</div>
 	<form method="POST" action="vote_result.php" style="margin-left:20%; margin-right:20%;">
-		<div class="col-lg-6">
+		<div class="col-lg-6" style="padding-top: 15%;">
 
-			<div class="panel panel-primary" style="padding-top: 15%;">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<center>
 						PRESIDENT</center>
