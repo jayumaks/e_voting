@@ -2,8 +2,9 @@
 <?php include("sess.php"); ?>
 
 <body>
-	<?php include 'side_bar.php'; ?>
+	
 	<div id="wrapper">
+		<?php include 'side_bar.php'; ?>
 	</div>
 	<form method="POST" action="vote_result.php" style="margin-left:20%; margin-right:20%;">
 		<div class="col-lg-6" style="padding-top: 15%;">
