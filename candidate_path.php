@@ -11,12 +11,13 @@
        <div class="menue-select">
   <select onchange="page(this.value)">
     <option disabled selected>Select Candidate Group</option>
-    <option value="candidates/pres.php">President</option>
+    <option value="candidates/tc.php">What’s the most popular slang on campus this semester ?</option>
+    <!-- <option value="candidates/pres.php">President</option>
     <option value="candidates/vp.php">Vice President</option>
     <option value="candidates/tr.php">Treasurer</option>
     <option value="candidates/sg.php">Secretary General</option>
     <option value="candidates/ta.php">Welfare</option>
-    <option value="candidates/pb.php">PRO</option>
+    <option value="candidates/pb.php">PRO</option> -->
   </select>
 </div>
 

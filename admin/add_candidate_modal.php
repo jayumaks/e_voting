@@ -18,7 +18,8 @@
 						<label>Position</label>
 						<select class = "form-control" name = "position">
 								<option selected disabled>Select Candidate Group</option>
-								<option>President</option>
+								<option>What’s the most popular slang on campus this semester ?</option>
+								<!-- <option>President</option>
 								<option>Vice President</option>
 								
 								
@@ -27,26 +28,30 @@
 								<option>Secretary General</option>
 								
 								<option>Welfare</option>
-								<option>PRO</option>
+								<option>PRO</option> -->
 								
 							</select>
 					</div>
 					<div class="form-group">
+						<label>Slang</label>
+							<input class="form-control" type ="text" name = "slang" placeholder="Please enter slang" required="true">
+					</div>
+					<!-- <div class="form-group">
 						<label>Party Name</label>
 							<input class="form-control" type ="text" name = "party" placeholder="Please enter party name" required="true">
-					</div>
+					</div> -->
 
 										
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<label>Firstname</label>
 							<input class="form-control" type ="text" name = "firstname" placeholder="Please enter firstname" required="true">
 					</div>
 					<div class="form-group">
 						<label>Lastname</label>
 							<input class="form-control"  type = "text" name = "lastname" placeholder="Please enter lastname" required="true">
-					</div>
+					</div> -->
 											
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<label>Year_Level</label>
 							<select class = "form-control" name = "year_level">
 								<option></option>
@@ -55,16 +60,16 @@
 								<option>3rd Year</option>
 								<option>4th Year</option>
 							</select>
-					</div>
+					</div> -->
 															
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<label>Gender</label>
 							<select class = "form-control" name = "gender">
 								<option></option>
 								<option>Male</option>
 								<option>Female</option>
 							</select>
-					</div>
+					</div> -->
 											
 											
 					<div class="form-group">
@@ -85,6 +90,9 @@
 				require_once 'dbcon.php';
 				
 				if (isset ($_POST ['save'])){
+					
+					$slang=$_POST['slang'];
+					// $party=$_POST['party'];
 					$position=$_POST['position'];					
 					$party=$_POST['party'];
 					$firstname=$_POST['firstname'];
@@ -99,8 +107,10 @@
 					$location="upload/" . $_FILES["image"]["name"];
 					
 					
-					$conn->query("INSERT INTO candidate(position,party,firstname,lastname,year_level,gender,img)values('$position','$party','$firstname','$lastname','$year_level','$gender','$location')")or die($conn->error);
-				}						
+					// $conn->query("INSERT INTO candidate(position,party,firstname,lastname,year_level,gender,img)values('$position','$party','$firstname','$lastname','$year_level','$gender','$location')")or die($conn->error);
+					$conn->query("INSERT INTO slang(slang,img)values('$slang',)")or die($conn->error);
+				}
+
 			?>					
         </div>
                                    
