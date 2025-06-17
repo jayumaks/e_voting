@@ -17,9 +17,11 @@
     <!-- Collapsible Sidebar Content -->
     <div class="collapse navbar-collapse" id="sidebar-collapse">
       <ul class="nav navbar-nav">
-        <li><a href="dashboard.php" style="color: white;"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li><a href="polls.php" style="color: white;"><i class="fa fa-bar-chart"></i> View Polls</a></li>
-        <li><a href="vote.php" style="color: white;"><i class="fa fa-check-square-o"></i> Cast Vote</a></li>
+         <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style = "color: white">
+					<i>Welcome: <?php echo $user_username = $user_row['firstname']." ".$user_row['lastname'];?></i>
+                    </a>                     
+                </li>
         <li><a href="results.php" style="color: white;"><i class="fa fa-line-chart"></i> Results</a></li>
         <li><a href="logout.php" style="color: white;"><i class="fa fa-sign-out"></i> Logout</a></li>
       </ul>
