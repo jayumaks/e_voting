@@ -42,15 +42,15 @@
                                     <thead>
                                         <tr>
                                          
-                                            <th>Slang</th>
-                                            <!-- <th>Image</th>
+                                            
+                                            <th>Image</th>
                                             <th>Position</th>
                                             <th>Party</th>
                                             <th>Firstname</th>
                                             <th>Lastname</th>
                                             <th>Year Level</th>
                                             <th>Gender</th>
-                                            <th>Action</th> -->
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
