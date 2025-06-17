@@ -7,21 +7,15 @@ include ('head.php'); ?>
   <?php include ('view_banner.php'); ?>
 
   <style>
-    /* .login-container {
+ .login-container {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 20px; /* More top space */
-} */
-.login-container {
-  flex: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  margin-top: 40px; /* adjust as needed */
+  margin-top: 40px; 
   padding: 0 20px;
-}
+  padding: 20px 20px; 
+} 
 
 
     .login-panel {
