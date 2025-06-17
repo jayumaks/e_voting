@@ -31,7 +31,7 @@
 <!-- Optional Sidebar Styling -->
 <style>
   .sidebar {
-    min-height: 100vh;
+    min-height: 50vh;
     padding-top: 20px;
   }
 
