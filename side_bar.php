@@ -16,7 +16,7 @@
 			 ?>
                
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style = "color: black">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style = "color: white">
 					<i>Welcome: <?php echo $user_username = $user_row['firstname']." ".$user_row['lastname'];?></i>
                     </a>                     
                 </li>
