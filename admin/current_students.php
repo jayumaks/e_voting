@@ -21,7 +21,7 @@
                 
 				
                     <div class="panel panel-default">
-                        
+         
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
@@ -33,6 +33,8 @@
                                             <th>Matric Number</th>
                                             <th>Names</th>
                                             <th>Year Registered</th>
+                                            <th>Action</th>
+
                                             
                                         </tr>
                                     </thead>
@@ -49,7 +51,12 @@
 												<td><?php echo $row1 ['id_number'];?></td>
                                                 <td><?php echo $row1 ['matric_number'];?></td>
 												<td><?php echo $row1 ['names'];?></td>
-												<td><?php echo $row1 ['started'];?></td>		
+												<td><?php echo $row1 ['started'];?></td>
+                                                <td>
+    <a href="delete_student.php?id=<?php echo $row1['id_number']; ?>" 
+       onclick="return confirm('Are you sure you want to delete this student?');" 
+       class="btn btn-danger btn-sm">Delete</a>
+</td>
 											</tr>
 										
                                        <?php } ?>
