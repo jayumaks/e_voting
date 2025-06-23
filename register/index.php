@@ -4,7 +4,7 @@
 
     <div id="wrapper">
     	<?php    
-        include ('index_banner.php');
+        include ('index_banner.php'); 
         ?>
         <!-- Page Content -->
         <div id="page-wrapper"style="margin-top: 40px;">

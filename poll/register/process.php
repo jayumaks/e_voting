@@ -1,5 +1,5 @@
 <?php
-include('../config.php');
+include('../dbcon.php');
 $fullname = $_POST['fullname'];
 $matric = $_POST['matric_no'];
 $stmt = $pdo->prepare("INSERT INTO students (fullname, matric_no) VALUES (?, ?)");

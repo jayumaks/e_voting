@@ -1,5 +1,5 @@
 <?php
-include('../config.php');
+include('../dbcon.php');
 $matric = $_GET['matric_no'] ?? '';
 $stmt = $pdo->prepare("SELECT * FROM students WHERE matric_no = ?");
 $stmt->execute([$matric]);

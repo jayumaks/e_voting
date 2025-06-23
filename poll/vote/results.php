@@ -1,5 +1,5 @@
 <?php
-include('../config.php');
+include('../dbcon.php');
 $poll = $pdo->query("SELECT * FROM poll LIMIT 1")->fetch();
 $options = $pdo->prepare("SELECT * FROM options WHERE poll_id = ?");
 $options->execute([$poll['id']]);

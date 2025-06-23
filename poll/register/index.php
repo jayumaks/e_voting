@@ -1,4 +1,4 @@
-<?php include('../config.php'); ?>
+<?php include('../dbcon.php'); ?>
 <!DOCTYPE html>
 <html>
 <head><link rel="stylesheet" href="../assets/style.css"></head>

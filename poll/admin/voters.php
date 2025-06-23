@@ -1,5 +1,5 @@
 <?php
-session_start(); include('../config.php');
+session_start(); include('../dbcon.php');
 if (!isset($_SESSION['admin'])) { header('Location: login.php'); exit; }
 $students = $pdo->query("SELECT * FROM students")->fetchAll();
 ?>

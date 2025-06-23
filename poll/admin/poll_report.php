@@ -1,5 +1,5 @@
 <?php
-session_start(); include('../config.php');
+session_start(); include('../dbcon.php');
 if (!isset($_SESSION['admin'])) { header('Location: login.php'); exit; }
 $poll = $pdo->query("SELECT * FROM poll LIMIT 1")->fetch();
 $options = $pdo->prepare("SELECT * FROM options WHERE poll_id = ?");
