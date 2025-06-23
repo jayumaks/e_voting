@@ -1,0 +1,22 @@
+CREATE DATABASE IF NOT EXISTS poll_db;
+USE poll_db;
+
+CREATE TABLE IF NOT EXISTS students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(100),
+    matric_no VARCHAR(20) UNIQUE,
+    voted TINYINT(1) DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS poll (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    question TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS options (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    poll_id INT,
+    option_text VARCHAR(100),
+    votes INT DEFAULT 0,
+    FOREIGN KEY (poll_id) REFERENCES poll(id)
+);
