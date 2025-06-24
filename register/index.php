@@ -3,19 +3,19 @@
 <body>
 
     <div id="wrapper">
-    	<?php    
-        include ('index_banner.php'); 
+    	<?php
+        include ('index_banner.php');
         ?>
         <!-- Page Content -->
         <div id="page-wrapper"style="margin-top: 40px;">
             <div class="row">
-			
+
 					<div class="form-panel">
-                      
-                        <div class="form-body"> 
+
+                        <div class="form-body">
 
                          <form method = "post" enctype = "multipart/form-data">
-                         	
+
                                 <div class="form-heading">
                          		<center>Voter Registeration</center>
                          		</div>
@@ -29,7 +29,7 @@
 												<label>Password</label><br/>
 													<input class="form-control"  type = "password" name = "password" id = "pass" placeholder="Password" required="true"/>
 											</div>
-											<div class="form-field">											
+											<div class="form-field">
 												<label>Retyp Password</label><br/>
 													<input class="form-control"  type = "password" name = "password1" id = "pass" placeholder="Retyp Password" required="true"/>
 											</div>
@@ -38,7 +38,7 @@
 												<label>First Name</label><br/>
 													<input class="form-control" type ="text" name = "firstname" placeholder="First Name" required="true">
 											</div>
-											
+
 											<div class="form-field">
 												<label>Last Name</label><br/>
 													<input class="form-control"  type = "text" name = "lastname" placeholder="Last Name" required="true">
@@ -48,10 +48,10 @@
 												<label>Gender</label> <br/>
 													<select class = "form-control" name = "gender">
 														<option >Male</option>
-														<option >Female</option>														
+														<option >Female</option>
 													</select>
 											</div>
-											
+
 											<div class="form-field">
 												<label>Department <i>(enter initials only i.e MCB, PYS, BCH..)</i></label><br/>
 													<input class="form-control"  type = "text" name = "prog_study" placeholder="E.g MCB, PYS, BCH.." required="true">
@@ -65,36 +65,36 @@
 														<option>3rd Year</option>
 														<option>4th Year</option>
 														<option>5th Year</option>
-														
+
 													</select>
 											</div>
-												<br/>					
+												<br/>
 											 	 <center><button name = "save" type="submit">Create My Account</button></center>
                                             <div class="link">
 											 	 <h2><center><a href="../login.php" style = "font-size:16px;">Login to vote</a></center></h2>
 											</div>
 
 						  				 </div>
-                                       
-										
+
+
 										</form>
-								
+
 							<?php //PHP script to insert signup data into database
 								require 'signUpData.php';
-								
+
 							?>
 
 						</div>
-						    
+
 					</form>
-					
+
                     </div>
                 </div>
-            
+
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
-        <?php 
+        <?php
         include ('footer.php');
         ?>
 

@@ -34,7 +34,7 @@
                                             <tr>
                                                 <th><input type="checkbox" id="select-all"></th>
                                                 <th>Student ID</th>
-                                                
+                                                <th>Matric Number</th>
                                                 <th>Names</th>
                                                 <th>Year Registered</th>
                                                 <th>Action</th>

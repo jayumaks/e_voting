@@ -86,7 +86,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="col-lg-6">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
@@ -157,7 +157,7 @@
 
 
 
-		
+
 		<hr />
 
 		<center><button class="btn btn-success ballot" type="submit" name="submit">Submit Ballot</button></center>
