@@ -1,4 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+?>
+
+
+<?php
 include('dbcon.php');
 $poll = $pdo->query("SELECT * FROM poll LIMIT 1")->fetch();
 $options = $pdo->prepare("SELECT * FROM options WHERE poll_id = ?");
@@ -10,7 +16,7 @@ $options->execute([$poll['id']]);
 <body>
 <div class="container">
   <h1>Opinion Poll System</h1>
-  
+
   <?php if ($poll): ?>
     <h2><?php echo htmlspecialchars($poll['question']); ?></h2>
     <form action="vote/submit_vote.php" method="post">
