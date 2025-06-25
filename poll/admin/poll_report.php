@@ -85,7 +85,7 @@ $options->execute([$poll['id']]);
 
 <!-- Header -->
 <div class="header">
-    <h1>Reset Votes - AAU Voting Admin</h1>
+    <h1>AAU Voting Admin</h1>
 </div>
 
 <!-- Content -->
