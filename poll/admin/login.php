@@ -1,12 +1,14 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Admin Login - AAU Voting System</title>
     <link rel="stylesheet" href="../assets/style.css">
     <style>
-        body, html {
+        body,
+        html {
             margin: 0;
             padding: 0;
             height: 100%;
@@ -50,7 +52,7 @@
             margin: 40px auto;
             padding: 30px;
             background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
         }
 
@@ -82,61 +84,63 @@
             justify-content: space-between;
             font-size: 14px;
         }
-
     </style>
 </head>
+
 <body>
-<div class="page-wrapper">
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <img src="../assets/logo.png" alt="AAU Logo">
-            <span>AAU Voting System</span>
-        </div>
-        <nav>
-            <a href="../index.php">Home</a>
-            <a href="../poll/index.php">Poll</a>
-            <a href="../register/index.php">Register</a>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container">
-        <h2 style="text-align:center;">Admin Login</h2>
-
-        <?php if (!empty($_SESSION['error'])): ?>
-            <p style="color:red;"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></p>
-        <?php endif; ?>
-
-        <form method="POST" action="auth.php">
-            <label>Username</label>
-            <input type="text" name="username" required>
-
-            <label>Password</label>
-            <input type="password" name="password" id="admin-password" required>
-
-            <div class="remember-show">
-                <label><input type="checkbox" onclick="togglePassword()"> Show Password</label>
-                <label><input type="checkbox" name="remember"> Remember me</label>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <img src="../assets/logo.png" alt="AAU Logo">
+                <span>AAU Voting System</span>
             </div>
+            <nav>
+                <a href="../index.php">Home</a>
+                <a href="../poll/index.php">Poll</a>
+                <a href="../register/index.php">Register</a>
+            </nav>
+        </header>
 
-            <br><button type="submit">Login</button>
-        </form>
-    </main>
+        <!-- Main Content -->
+        <main class="container">
+            <h2 style="text-align:center;">Admin Login</h2>
 
-    <!-- Footer -->
-    <footer class="footer">
-        &copy;<?= date('Y') ?> 2025. Developed by AAU, ICT (WDM)<br/>
-    AAU E-VOTING SYSTEM<br/>
-    Email: <a href="mailto:webmaster@aauekpoma.edu.ng">webmaster@aauekpoma.edu.ng</a>
-    </footer>
-</div>
+            <?php if (!empty($_SESSION['error'])): ?>
+                <p style="color:red;"><?php echo $_SESSION['error'];
+                                        unset($_SESSION['error']); ?></p>
+            <?php endif; ?>
 
-<script>
-function togglePassword() {
-    var x = document.getElementById("admin-password");
-    x.type = x.type === "password" ? "text" : "password";
-}
-</script>
+            <form method="POST" action="auth.php">
+                <label>Username</label>
+                <input type="text" name="username" required>
+
+                <label>Password</label>
+                <input type="password" name="password" id="admin-password" required>
+
+                <div class="remember-show">
+                    <label><input type="checkbox" onclick="togglePassword()"> Show Password</label>
+                    <label><input type="checkbox" name="remember"> Remember me</label>
+                </div>
+
+                <br><button type="submit">Login</button>
+            </form>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            &copy;<?= date('Y') ?> 2025. Developed by AAU, ICT (WDM)<br />
+            AAU E-VOTING SYSTEM<br />
+            Email: <a href="mailto:webmaster@aauekpoma.edu.ng">webmaster@aauekpoma.edu.ng</a>
+        </footer>
+    </div>
+
+    <script>
+        function togglePassword() {
+            var x = document.getElementById("admin-password");
+            x.type = x.type === "password" ? "text" : "password";
+        }
+    </script>
 </body>
+
 </html>
