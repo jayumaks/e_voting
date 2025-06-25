@@ -13,13 +13,28 @@ if (!isset($_SESSION['admin'])) {
 
 // Handle reset action
 if (isset($_GET['reset_id'])) {
+    $voter_id = $_GET['reset_id'];
 
-    $stmt = $pdo->prepare("UPDATE voters SET voted = 0 WHERE voters_id = ?");
+    // Get the voter's previous vote
+    $stmt = $pdo->prepare("SELECT option_id FROM poll_votes WHERE voter_id = ?");
+    $stmt->execute([$voter_id]);
+    $vote = $stmt->fetch();
 
-    $stmt->execute([$_GET['reset_id']]);
-    header("Location: view_voters.php"); // Refresh page
+    if ($vote) {
+        // Decrement the vote count in options table
+        $pdo->prepare("UPDATE options SET votes = votes - 1 WHERE id = ?")->execute([$vote['option_id']]);
+
+        // Delete the vote record
+        $pdo->prepare("DELETE FROM poll_votes WHERE voter_id = ?")->execute([$voter_id]);
+    }
+
+    // Update voter status
+    $pdo->prepare("UPDATE voters SET voted = 0 WHERE voters_id = ?")->execute([$voter_id]);
+
+    header("Location: view_voters.php");
     exit;
 }
+
 
 // Fetch all students
 $students = $pdo->query("SELECT * FROM voters ORDER BY firstname")->fetchAll(PDO::FETCH_ASSOC);
