@@ -33,6 +33,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/style.css">
     <style>
+/* Full-page layout with flex */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Sticky header */
+.header {
+    background: black;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.header nav a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Main content grows to fill space */
+main.container {
+    flex: 1;
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+
+/* Footer sticks to bottom */
+.footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+
         body {
             font-family: 'Segoe UI', sans-serif;
             background: #f4f4f4;
@@ -109,52 +169,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <img src="assets/logo.png" alt="Logo">
+                <span>AAU Online Voting</span>
+            </div>
+            <nav>
+                <a href="index.php">Home</a>
+                <a href="register/index.php">Register</a>
+                <a href="admin/login.php">Admin</a>
+            </nav>
+        </header>
 
-<header>
-    <div class="logo">
-        <img src="assets/logo.png" alt="Logo"> <!-- Make sure logo.png exists -->
-        <span>AAU Online Voting</span>
+        <!-- Main content -->
+        <main class="container">
+            <h2 style="text-align:center;">Login to Vote</h2>
+
+            <?php if (!empty($error)): ?>
+                <p style="color:red;"><?php echo $error; ?></p>
+            <?php endif; ?>
+
+            <form method="post" action="login.php">
+                <label>Student ID</label>
+                <input type="text" name="student_id" value="<?= $_COOKIE['student_id'] ?? '' ?>" required>
+
+                <label>Password</label>
+                <input type="password" name="password" id="password" required>
+
+                <div class="remember-show">
+                    <label><input type="checkbox" onclick="togglePassword()"> Show Password</label>
+                    <label><input type="checkbox" name="remember"> Remember me</label>
+                </div>
+
+                <br>
+                <button type="submit">Login</button>
+            </form>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            &copy; <?= date('Y') ?> Ambrose Alli University Online Voting System
+        </footer>
     </div>
-    <nav>
-        <a href="index.php">Home</a>
-        <a href="register/index.php">Register</a>
-        <a href="admin/login.php">Admin</a>
-    </nav>
-</header>
 
-<div class="container">
-    <h2 style="text-align:center;">Login to Vote</h2>
-
-    <?php if (!empty($error)): ?>
-        <p style="color:red;"><?php echo $error; ?></p>
-    <?php endif; ?>
-
-    <form method="post" action="login.php">
-        <label>Student ID</label>
-        <input type="text" name="student_id" value="<?= $_COOKIE['student_id'] ?? '' ?>" required>
-
-        <label>Password</label>
-        <input type="password" name="password" id="password" required>
-        <div class="remember-show">
-            <label><input type="checkbox" onclick="togglePassword()"> Show Password</label>
-            <label><input type="checkbox" name="remember"> Remember me</label>
-        </div>
-
-        <br>
-        <button type="submit">Login</button>
-    </form>
-</div>
-
-<footer class="footer">
-    &copy; <?= date('Y') ?> Ambrose Alli University Online Voting System
-</footer>
-
-<script>
-function togglePassword() {
-    var pass = document.getElementById("password");
-    pass.type = pass.type === "password" ? "text" : "password";
-}
-</script>
-
+    <script>
+    function togglePassword() {
+        var pass = document.getElementById("password");
+        pass.type = pass.type === "password" ? "text" : "password";
+    }
+    </script>
 </body>
+
 </html>
