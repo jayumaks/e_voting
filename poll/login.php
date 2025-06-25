@@ -2,14 +2,14 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-include('../dbcon.php'); // Adjust path if dbcon.php is outside poll folder
+include('../dbcon.php'); // adjust path if needed
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $matric = $_POST['matric_no'];
-    $password = md5($_POST['password']); // Same hash as used in main system
+    $student_id = $_POST['student_id'];
+    $password = md5($_POST['password']); // matching your existing password hash
 
     $stmt = $pdo->prepare("SELECT * FROM voters WHERE id_number = ? AND password = ? AND account = 'active'");
-    $stmt->execute([$matric, $password]);
+    $stmt->execute([$student_id, $password]);
 
     if ($stmt->rowCount() > 0) {
         $voter = $stmt->fetch();
@@ -17,11 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: vote/index.php");
         exit;
     } else {
-        $error = "Invalid login or inactive account.";
+        $error = "Invalid Student ID, password, or account not active.";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,18 +28,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Login to Vote in Poll</h2>
-        <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
-        <form method="post">
-            <label>Matric Number:</label><br>
-            <input type="text" name="matric_no" required><br><br>
+<div class="container">
+    <h2>Login to Vote in the Opinion Poll</h2>
+    <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
+    <form method="post">
+        <label>Student ID:</label><br>
+        <input type="text" name="student_id" required><br><br>
 
-            <label>Password:</label><br>
-            <input type="password" name="password" required><br><br>
+        <label>Password:</label><br>
+        <input type="password" name="password" required><br><br>
 
-            <button type="submit">Login</button>
-        </form>
-    </div>
+        <button type="submit">Login</button>
+    </form>
+</div>
 </body>
 </html>
