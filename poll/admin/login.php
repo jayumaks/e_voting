@@ -126,7 +126,9 @@
 
     <!-- Footer -->
     <footer class="footer">
-        &copy; <?php echo date('Y'); ?> Ambrose Alli University - Admin Panel
+        &copy;<?= date('Y') ?> 2025. Developed by AAU, ICT (WDM)<br/>
+    AAU E-VOTING SYSTEM<br/>
+    Email: <a href="mailto:webmaster@aauekpoma.edu.ng">webmaster@aauekpoma.edu.ng</a>
     </footer>
 </div>
 
