@@ -2,9 +2,11 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 session_start();
 include('dbcon.php');
+echo "DB connection successful!";
+exit;
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id_number'];
