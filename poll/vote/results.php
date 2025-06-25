@@ -1,4 +1,8 @@
 <?php
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 include('../dbcon.php');
 $poll = $pdo->query("SELECT * FROM poll LIMIT 1")->fetch();
 $options = $pdo->prepare("SELECT * FROM options WHERE poll_id = ?");
