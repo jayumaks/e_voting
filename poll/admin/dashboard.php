@@ -16,32 +16,54 @@ if (!isset($_SESSION['admin'])) {
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: #f5f6fa;
+            background: #f4f6f9;
         }
 
-        .header, .footer {
+        .header {
             background-color: black;
             color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .header img.logo {
+            height: 40px;
+        }
+
+        .header-title {
+            flex-grow: 1;
             text-align: center;
-            padding: 15px 20px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .footer {
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 12px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
 
         .dashboard-wrapper {
             display: flex;
-            flex-wrap: wrap;
-            min-height: calc(100vh - 100px); /* Adjust based on header/footer */
+            min-height: calc(100vh - 110px);
         }
 
         .sidebar {
+            width: 220px;
             background: #222;
             color: white;
-            width: 220px;
             padding: 20px;
             min-height: 100%;
         }
 
         .sidebar h3 {
-            color: #fff;
             margin-bottom: 20px;
         }
 
@@ -49,13 +71,14 @@ if (!isset($_SESSION['admin'])) {
             color: #ddd;
             text-decoration: none;
             display: block;
-            margin-bottom: 15px;
-            font-weight: bold;
+            padding: 10px 0;
+            font-size: 16px;
         }
 
         .sidebar a:hover {
-            color: #fff;
-            text-decoration: underline;
+            color: white;
+            background: #444;
+            padding-left: 10px;
         }
 
         .main-content {
@@ -66,24 +89,25 @@ if (!isset($_SESSION['admin'])) {
         .table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-            border-radius: 6px;
+            background: #fff;
+            border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .table th, .table td {
-            padding: 15px;
-            text-align: left;
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
         }
 
         .table th {
-            background-color: #333;
+            background: #333;
             color: white;
+            text-align: left;
         }
 
         .table tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background: #f9f9f9;
         }
 
         @media (max-width: 768px) {
@@ -99,6 +123,17 @@ if (!isset($_SESSION['admin'])) {
             .main-content {
                 padding: 15px;
             }
+
+            .header-title {
+                text-align: center;
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -106,14 +141,16 @@ if (!isset($_SESSION['admin'])) {
 
 <!-- Header -->
 <div class="header">
-    <h1>AAU Voting Admin Panel</h1>
+    <img src="../assets/logo.png" alt="AAU Logo" class="logo">
+    <div class="header-title">AAU Voting System</div>
 </div>
 
-<!-- Content -->
+<!-- Main Content Wrapper -->
 <div class="dashboard-wrapper">
+
     <!-- Sidebar -->
     <div class="sidebar">
-        <h3>Navigation</h3>
+        <h3>Menu</h3>
         <a href="voters.php">👥 Voter List</a>
         <a href="poll_report.php">📊 Poll Report</a>
         <a href="reset_votes.php">🔁 Reset Votes</a>
@@ -134,19 +171,20 @@ if (!isset($_SESSION['admin'])) {
             </tr>
             <tr>
                 <td><a href="poll_report.php">Poll Report</a></td>
-                <td>View current opinion poll results and stats.</td>
+                <td>See real-time poll results and votes per option.</td>
             </tr>
             <tr>
-                <td><a href="reset_votes.php">Reset Votes</a></td>
-                <td>Clear all votes and restart the poll.</td>
+                <td><a href="reset_votes.php">Reset All Votes</a></td>
+                <td>Clear all current votes and restart the poll cleanly.</td>
             </tr>
         </table>
     </div>
+
 </div>
 
 <!-- Footer -->
 <div class="footer">
-    &copy; <?php echo date('Y'); ?> Ambrose Alli University - Voting System Admin
+    &copy; <?= date('Y') ?> Ambrose Alli University - Voting System
 </div>
 
 </body>
