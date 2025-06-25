@@ -2,11 +2,11 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-include('dbcon.php'); // adjust path if needed
+include('dbcon.php'); // Make sure this path is correct
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student_id = $_POST['student_id'];
-    $password = md5($_POST['password']); // matching your existing password hash
+    $password = md5($_POST['password']); // Matching your DB hash
 
     $stmt = $pdo->prepare("SELECT * FROM voters WHERE id_number = ? AND password = ? AND account = 'active'");
     $stmt->execute([$student_id, $password]);
@@ -14,13 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->rowCount() > 0) {
         $voter = $stmt->fetch();
         $_SESSION['poll_voter_id'] = $voter['voters_id'];
-        header("Location: vote/index.php");
+        header("Location: vote/index.php"); // Must be correct path
         exit;
     } else {
         $error = "Invalid Student ID, password, or account not active.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container">
     <h2>Login to Vote in the Opinion Poll</h2>
     <?php if (!empty($error)) echo "<p style='color:red;'>$error</p>"; ?>
-    <form method="post">
+    <form method="post" action="login.php">
         <label>Student ID:</label><br>
         <input type="text" name="student_id" required><br><br>
 
