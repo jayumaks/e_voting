@@ -13,6 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->rowCount() > 0) {
         $voter = $stmt->fetch();
         $_SESSION['poll_voter_id'] = $voter['voters_id'];
+
+        // Set cookie if "Remember me" is checked
+        if (isset($_POST['remember'])) {
+            setcookie('student_id', $student_id, time() + (86400 * 30), "/");
+        }
+
         header("Location: vote/index.php");
         exit;
     } else {
@@ -20,40 +26,135 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <title>Poll Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="assets/style.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+        }
+        header {
+            background: black;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 400px;
+            background: white;
+            padding: 30px;
+            margin: 60px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #002244;
+        }
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 60px;
+        }
+        .remember-show {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        @media (max-width: 500px) {
+            header { flex-direction: column; align-items: flex-start; }
+            nav { margin-top: 10px; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header / Logo -->
-    <header style="background: black; color: white; padding: 15px; text-align: center;">
-        <h1 style="margin: 0;">AAU Online Voting System</h1>
-    </header>
 
-    <div class="container" style="max-width: 500px; margin: 40px auto;">
-        <h2>Login to Vote</h2>
-
-        <?php if (!empty($error)): ?>
-            <p style="color:red;"><?php echo $error; ?></p>
-        <?php endif; ?>
-
-        <form method="post" action="login.php">
-            <label>Student ID:</label><br>
-            <input type="text" name="student_id" required><br><br>
-
-            <label>Password:</label><br>
-            <input type="password" name="password" required><br><br>
-
-            <button type="submit">Login</button>
-        </form>
+<header>
+    <div class="logo">
+        <img src="assets/logo.png" alt="Logo"> <!-- Make sure logo.png exists -->
+        <span>AAU Online Voting</span>
     </div>
+    <nav>
+        <a href="index.php">Home</a>
+        <a href="register/index.php">Register</a>
+        <a href="admin/login.php">Admin</a>
+    </nav>
+</header>
 
-    <!-- Footer -->
-    <footer style="background: #333; color: white; text-align: center; padding: 10px; position: fixed; width: 100%; bottom: 0;">
-        &copy; <?php echo date('Y'); ?> Ambrose Alli University Voting System
-    </footer>
+<div class="container">
+    <h2 style="text-align:center;">Login to Vote</h2>
+
+    <?php if (!empty($error)): ?>
+        <p style="color:red;"><?php echo $error; ?></p>
+    <?php endif; ?>
+
+    <form method="post" action="login.php">
+        <label>Student ID</label>
+        <input type="text" name="student_id" value="<?= $_COOKIE['student_id'] ?? '' ?>" required>
+
+        <label>Password</label>
+        <input type="password" name="password" id="password" required>
+        <div class="remember-show">
+            <label><input type="checkbox" onclick="togglePassword()"> Show Password</label>
+            <label><input type="checkbox" name="remember"> Remember me</label>
+        </div>
+
+        <br>
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+<footer class="footer">
+    &copy; <?= date('Y') ?> Ambrose Alli University Online Voting System
+</footer>
+
+<script>
+function togglePassword() {
+    var pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
+}
+</script>
+
 </body>
 </html>
