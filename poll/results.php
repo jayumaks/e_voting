@@ -12,8 +12,9 @@ if (!$poll) {
 }
 
 // Fetch poll options
-$options = $pdo->prepare("SELECT * FROM options WHERE poll_id = ?");
+$options = $pdo->prepare("SELECT option_text, votes FROM options WHERE poll_id = ?");
 $options->execute([$poll['id']]);
+
 
 // Fetch votes per option
 $votes = $pdo->prepare("SELECT option_id, COUNT(*) as total FROM poll_votes WHERE poll_id = ? GROUP BY option_id");
@@ -32,12 +33,12 @@ foreach ($votes as $v) {
 <body>
     <h2>Results: <?php echo htmlspecialchars($poll['question']); ?></h2>
     <ul>
-    <?php while ($option = $options->fetch()): ?>
-        <li>
-            <?php echo htmlspecialchars($option['option_text']); ?> -
-            <?php echo $voteCounts[$option['id']] ?? 0; ?> votes
-        </li>
-    <?php endwhile; ?>
+  <?php while ($option = $options->fetch()): ?>
+    <li>
+        <?= htmlspecialchars($option['option_text']) ?> - <?= $option['votes'] ?> votes
+    </li>
+<?php endwhile; ?>
+
     </ul>
     <a href="../index.php">Back to Home</a>
 </body>
