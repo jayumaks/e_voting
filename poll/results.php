@@ -39,6 +39,6 @@ foreach ($votes as $v) {
         </li>
     <?php endwhile; ?>
     </ul>
-    <a href="index.php">Back to Home</a>
+    <a href="../index.php">Back to Home</a>
 </body>
 </html>
