@@ -73,6 +73,7 @@ if (!isset($_SESSION['admin'])) {
             display: block;
             padding: 10px 0;
             font-size: 16px;
+            cursor: pointer;
         }
 
         .sidebar a:hover {
@@ -84,6 +85,10 @@ if (!isset($_SESSION['admin'])) {
         .main-content {
             flex: 1;
             padding: 30px;
+        }
+
+        .hidden {
+            display: none;
         }
 
         .table {
@@ -145,47 +150,86 @@ if (!isset($_SESSION['admin'])) {
     <div class="header-title">AAU Voting System</div>
 </div>
 
-<!-- Main Content Wrapper -->
+<!-- Dashboard Layout -->
 <div class="dashboard-wrapper">
-
     <!-- Sidebar -->
     <div class="sidebar">
         <h3>Menu</h3>
-        <a href="voters.php">👥 Voter List</a>
-        <a href="poll_report.php">📊 Poll Report</a>
-        <a href="reset_votes.php">🔁 Reset Votes</a>
+        <a onclick="showSection('dashboard')">📊 Dashboard</a>
+        <a onclick="showSection('voters')">👥 Voter List</a>
+        <a onclick="showSection('report')">📈 Poll Report</a>
+        <a onclick="showSection('reset')">🔁 Reset Votes</a>
         <a href="logout.php">🚪 Logout</a>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <h2>Welcome, Admin!</h2>
-        <table class="table">
-            <tr>
-                <th>Quick Access</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td><a href="voters.php">View Voters</a></td>
-                <td>See all registered voters and their voting status.</td>
-            </tr>
-            <tr>
-                <td><a href="poll_report.php">Poll Report</a></td>
-                <td>See real-time poll results and votes per option.</td>
-            </tr>
-            <tr>
-                <td><a href="reset_votes.php">Reset All Votes</a></td>
-                <td>Clear all current votes and restart the poll cleanly.</td>
-            </tr>
-        </table>
-    </div>
+        <!-- Dashboard -->
+        <div id="dashboard-section">
+            <h2>Welcome, Admin!</h2>
+            <p>Use the menu to manage voting activities.</p>
+        </div>
 
+        <!-- Voter List -->
+        <div id="voters-section" class="hidden">
+            <h2>Registered Voters</h2>
+            <table class="table">
+                <tr><th>Name</th><th>Student ID</th><th>Status</th></tr>
+                <?php
+                include('../dbcon.php');
+                $students = $pdo->query("SELECT * FROM voters ORDER BY fullname")->fetchAll();
+                foreach ($students as $s) {
+                    echo "<tr>
+                        <td>" . htmlspecialchars($s['fullname']) . "</td>
+                        <td>" . htmlspecialchars($s['id_number']) . "</td>
+                        <td>" . ($s['voted'] ? 'Voted' : 'Not Voted') . "</td>
+                    </tr>";
+                }
+                ?>
+            </table>
+        </div>
+
+        <!-- Poll Report -->
+        <div id="report-section" class="hidden">
+            <h2>Poll Report</h2>
+            <?php
+            $poll = $pdo->query("SELECT * FROM poll LIMIT 1")->fetch();
+            echo "<p><strong>Question:</strong> " . htmlspecialchars($poll['question']) . "</p>";
+            $options = $pdo->prepare("SELECT * FROM options WHERE poll_id = ?");
+            $options->execute([$poll['id']]);
+            echo "<ul>";
+            foreach ($options as $opt) {
+                echo "<li>" . htmlspecialchars($opt['option_text']) . " - " . $opt['votes'] . " votes</li>";
+            }
+            echo "</ul>";
+            ?>
+        </div>
+
+        <!-- Reset Votes -->
+        <div id="reset-section" class="hidden">
+            <h2>Reset All Votes</h2>
+            <form method="post" action="reset_votes.php" onsubmit="return confirm('Are you sure you want to reset all votes?');">
+                <button type="submit" style="padding: 10px 20px; background: red; color: white; border: none; border-radius: 5px;">Reset All</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- Footer -->
 <div class="footer">
     &copy; <?= date('Y') ?> Ambrose Alli University - Voting System
 </div>
+
+<!-- Script to toggle sections -->
+<script>
+    function showSection(id) {
+        const sections = ['dashboard', 'voters', 'report', 'reset'];
+        sections.forEach(sec => {
+            document.getElementById(sec + '-section').classList.add('hidden');
+        });
+        document.getElementById(id + '-section').classList.remove('hidden');
+    }
+</script>
 
 </body>
 </html>
