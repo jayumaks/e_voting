@@ -18,7 +18,7 @@ $options->execute([$poll['id']]);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reset Votes - Admin</title>
+    <title>Admin Poll Report</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/style.css">
     <style>

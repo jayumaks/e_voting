@@ -9,11 +9,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>NEW ADMIN</title>
+    <title>ADMIN</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-	
+
 	<!-- Default Layout -->
 	<link href="css/style.css" rel="stylesheet">
 

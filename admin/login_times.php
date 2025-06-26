@@ -14,21 +14,21 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="page-header">System Usage Time Tracker</h3>
-                    
+
                 </div>
                 &nbsp;
                 <!-- /.col-lg-12 -->
-            
-                
+
+
                 <hr/>
-                
+
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="modal-title" id="myModalLabel">         
+                            <h4 class="modal-title" id="myModalLabel">
                                                 <div class="panel panel-primary">
                                                     <div class="panel-heading">
                                                         Systm User Log
-                                                    </div>    
+                                                    </div>
                                                 </div>
                                             </h4>
                         </div>
@@ -38,37 +38,37 @@
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
                                         <tr>
-                                         
+
                                             <th>Username</th>
                                             <th>Time Logged In</th>
                                     </thead>
                                     <tbody>
-                                    
+
                                         <tr>
-                                        <?php 
+                                        <?php
                                         require 'dbcon.php';
                                         $bool = false;
                                         $query = $conn->query("SELECT * FROM logins");
                                         while($row = $query->fetch_array()){
                                         $username=$row['username'];
                                         ?>
-                                            
+
                                             <td><?php echo $row ['username'];?></td>
                                             <td><?php echo $row ['login_time'];?></td>
-                                            
+
                                         </tr>
-                                        
+
                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
                             <!-- /.table-responsive -->
-                            
+
                         </div>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
-              
+
             </div>
             <!-- /.row -->
         </div>

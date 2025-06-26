@@ -4,7 +4,7 @@
 
 if (isset($_POST['submit'])) {
 	require_once 'dbcon.php';
-	
+
 	if (is_uploaded_file($_FILES['filename']['tmp_name'])) {
 	}
 
@@ -13,7 +13,7 @@ if (isset($_POST['submit'])) {
 
 	while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
 		$conn->query("INSERT into ids (id_number, names, started) values('$data[0]','$data[1]','$data[2]')");
-		
+
 		}
 
 	fclose($handle);
