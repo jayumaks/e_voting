@@ -1,6 +1,14 @@
 <?php
-ini_set('session.cookie_samesite', 'Lax');
-ini_set('session.cookie_secure', true); // Set to true only if using HTTPS
+// Force safer session handling across devices
+ini_set('session.use_cookies', 1);
+ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_samesite', 'Lax');  // Important for mobile
+// Optional: if you're using HTTPS
+// ini_set('session.cookie_secure', 1);
+
+session_start();
+
 
 session_start();
 
