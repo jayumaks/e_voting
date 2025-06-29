@@ -126,7 +126,7 @@ $options->execute([$poll['id']]);
 <div class="header">
     <img src="../assets/logo.png" alt="AAU Logo"> <!-- Replace with actual path to logo -->
     <nav>
-        <a href="../index.php">Home</a>
+        <a href="..//index.php">Home</a>
         <a href="../results.php">Results</a>
         <a href="../logout.php">Logout</a>
     </nav>
