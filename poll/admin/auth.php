@@ -6,10 +6,10 @@ $pass = $_POST['password'];
 
 // Define multiple users here
 $users = [
-    'admin' => ['password' => 'password', 'redirect' => 'admin/dashboard.php'],
-    'Prof. Iniaghe' => ['password' => 'asdfghjkl', 'redirect' => 'admin/dashboard.php'],
-    'Dean Of Student' => ['password' => 'zxcvbnm', 'redirect' => 'admin/dashboard.php'],
-    'Prof. Ignis' => ['password' => 'qwertyuiop', 'redirect' => 'admin/dashboard.php']
+    'admin' => ['password' => 'password', 'redirect' => 'dashboard.php'],
+    'Prof. Iniaghe' => ['password' => 'asdfghjkl', 'redirect' => 'dashboard.php'],
+    'Dean Of Student' => ['password' => 'zxcvbnm', 'redirect' => 'dashboard.php'],
+    'Prof. Ignis' => ['password' => 'qwertyuiop', 'redirect' => 'dashboard.php']
 ];
 
 // Check credentials
