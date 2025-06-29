@@ -30,6 +30,8 @@ if (isset($users[$user]) && $users[$user]['password'] === $pass) {
     header("Location: " . $users[$user]['redirect']);
     exit();
 } else {
-    echo "<h3 style='color:red;'>Invalid credentials</h3>";
+     $_SESSION['error'] = "Invalid credentials";
+    header("Location: admin_login.php");
+    exit();
 }
 ?>
