@@ -1,5 +1,6 @@
 <?php
-ini_set('session.cookie_samesite', 'Lax');  // ensures mobile and cross-page persistence
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_strict_mode', 1);
 
 
 session_start();

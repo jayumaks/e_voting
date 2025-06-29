@@ -9,9 +9,6 @@ ini_set('session.cookie_samesite', 'Lax');  // Important for mobile
 
 session_start();
 
-
-session_start();
-
 $user = $_POST['username'];
 $pass = $_POST['password'];
 

@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.use_strict_mode', 1);
+session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
