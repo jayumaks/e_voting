@@ -1,4 +1,7 @@
 <?php
+ini_set('session.cookie_samesite', 'Lax');  // ensures mobile and cross-page persistence
+
+
 session_start();
 include('../dbcon.php');
 if (!isset($_SESSION['admin'])) { header('Location: login.php'); exit; }
