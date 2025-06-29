@@ -1,10 +1,5 @@
 <?php
-// Force safer session handling across devices
-ini_set('session.use_cookies', 1);
-ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_samesite', 'Lax');  // Important for mobile
-ini_set('session.cookie_secure', 1);
+
 session_start();
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
@@ -190,7 +185,7 @@ if (!isset($_SESSION['username'])) {
 
 <!-- Footer -->
 <div class="footer">
-    &copy; <?= date('Y') ?> Ambrose Alli University - Voting System
+    &copy; <?= date('Y') ?> WDM, ICT, AAU - Voting System
 </div>
 
 </body>
