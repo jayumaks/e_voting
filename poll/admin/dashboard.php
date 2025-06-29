@@ -4,8 +4,7 @@ ini_set('session.use_cookies', 1);
 ini_set('session.use_only_cookies', 1);
 ini_set('session.cookie_httponly', 1);
 ini_set('session.cookie_samesite', 'Lax');  // Important for mobile
-// Optional: if you're using HTTPS
-// ini_set('session.cookie_secure', 1);
+ini_set('session.cookie_secure', 1);
 session_start();
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
