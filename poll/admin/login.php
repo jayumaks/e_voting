@@ -21,7 +21,7 @@
         }
 
         .header {
-            background: black;
+            background: #003366;
             color: white;
             padding: 10px 20px;
             display: flex;

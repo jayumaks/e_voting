@@ -28,7 +28,7 @@ $options->execute([$poll['id']]);
             background-color: #f4f6f8;
         }
         .header, .footer {
-            background-color: black;
+            background-color: #003366;
             color: white;
             padding: 15px 20px;
             text-align: center;

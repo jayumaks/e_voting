@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         /* Sticky header */
         .header {
-            background: black;
+            background: #003366;
             color: white;
             padding: 10px 20px;
             display: flex;
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         /* Footer sticks to bottom */
         .footer {
-            background: #333;
+            background: #003366;
             color: white;
             text-align: center;
             padding: 15px;
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         header {
-            background: black;
+            background: #003366;
             color: white;
             padding: 10px 20px;
             display: flex;

@@ -37,7 +37,7 @@ $options->execute([$poll['id']]);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: black;
+            background: #003366;
             color: white;
             padding: 10px 20px;
         }
