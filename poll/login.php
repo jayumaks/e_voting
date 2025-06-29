@@ -198,8 +198,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <span>AAU Online Voting</span>
             </div>
             <nav>
-                <a href="index.php">Home</a>
-                <a href="register/index.php">Register</a>
+                <a href="../index.php">Home</a>
+                <a href="../register/index.php">Register</a>
                 <a href="admin/login.php">Admin</a>
             </nav>
         </header>
