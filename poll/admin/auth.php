@@ -1,4 +1,7 @@
 <?php
+ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.cookie_secure', false); // Set to true only if using HTTPS
+
 session_start();
 
 $user = $_POST['username'];
