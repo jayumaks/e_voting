@@ -1,34 +1,40 @@
 <?php
-// Force safer session handling across devices
-ini_set('session.use_cookies', 1);
-ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_samesite', 'Lax');  // Important for mobile
-// Optional: if you're using HTTPS
-// ini_set('session.cookie_secure', 1);
-
 session_start();
+require_once '../dbcon.php';
 
-$user = $_POST['username'];
-$pass = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
-// Define multiple users here
-$users = [
-    'admin' => ['password' => 'password', 'redirect' => 'dashboard.php'],
-    'Prof. Iniaghe' => ['password' => 'asdfghjkl', 'redirect' => 'dashboard.php'],
-    'Dean Of Student' => ['password' => 'zxcvbnm', 'redirect' => 'dashboard.php'],
-    'Prof. Ignis' => ['password' => 'qwertyuiop', 'redirect' => 'dashboard.php']
-];
+    // Look up user from DB
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
 
-// Check credentials
-if (isset($users[$user]) && $users[$user]['password'] === $pass) {
-    $_SESSION['username'] = $user;
-    $_SESSION['role'] = $user;
-    header("Location: " . $users[$user]['redirect']);
-    exit();
-} else {
-     $_SESSION['error'] = "Invalid credentials";
-    header("Location: admin_login.php");
-    exit();
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
+
+        // Redirect by role
+        switch ($user['role']) {
+            case 'admin':
+                header("Location: dashboard.php");
+                break;
+            case 'staff':
+                header("Location: dashboard.php");
+                break;
+            case 'voter':
+                header("Location: dashboard.php");
+                break;
+            default:
+                $_SESSION['error'] = "Unknown role.";
+                header("Location: login.php");
+        }
+        exit();
+    } else {
+        $_SESSION['error'] = "Invalid username or password.";
+        header("Location: login.php");
+        exit();
+    }
 }
 ?>
