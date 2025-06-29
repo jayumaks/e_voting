@@ -156,3 +156,16 @@ foreach ($votes as $v) {
     <a href="../index.php">Back to Home</a>
 </body>
 </html>reportpage
+
+
+<?php
+session_start();
+$user = $_POST['username'];
+$pass = $_POST['password'];
+if ($user === 'admin' && $pass === 'password') {
+    $_SESSION['admin'] = true;
+    header('Location: dashboard.php');
+} else {
+    echo "Invalid credentials";
+}
+?>adminpollauth

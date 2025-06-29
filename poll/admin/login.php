@@ -96,9 +96,9 @@
                 <span>AAU Voting System</span>
             </div>
             <nav>
-                <a href="../index.php">Home</a>
+                <a href="..//index.php">Home</a>
                 <a href="../poll/index.php">Poll</a>
-                <a href="../register/index.php">Register</a>
+                <a href="..//register/index.php">Register</a>
             </nav>
         </header>
 
