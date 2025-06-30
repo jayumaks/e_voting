@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-include('dbcon.php');
+include('../dbcon.php');
 
 // Fetch the latest poll
 $poll = $pdo->query("SELECT * FROM poll ORDER BY id DESC LIMIT 1")->fetch();
