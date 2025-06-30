@@ -1,5 +1,6 @@
 <?php
-
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_samesite', 'Lax'); // or 'None' if you use HTTPS
 session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
