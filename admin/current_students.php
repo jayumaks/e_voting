@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="page-header">Current Students</h3>
-                    <a href="download.php" class="btn btn-success btn-outline"><i class="glyphicon glyphicon-save"></i> Import Students Data</a>
+                    <a href="upload_ids.php" class="btn btn-success btn-outline"><i class="glyphicon glyphicon-save"></i> Import Students Data</a>
                     <a href="add_student_id.php" class="btn btn-success btn-outline"><i class="glyphicon glyphicon-save"></i> Add Student ID</a>
 
                     <hr />
