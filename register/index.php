@@ -1,9 +1,9 @@
 <?php
 session_start();
-include('/head.php');
+include('./head.php');
 ?>
 <body>
-<?php include('/index_banner.php'); ?>
+<?php include('./index_banner.php'); ?>
 <div class="container">
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
