@@ -18,7 +18,7 @@ include('./head.php');
 
           <!-- Step 1: Enter Student ID to fetch email -->
           <?php if (!isset($_SESSION['otp_verified']) || !$_SESSION['otp_verified']): ?>
-            <form method="post" action="send_otp.php" id="lookupForm">
+            <form method="post" action="./send_otp.php" id="lookupForm">
               <div class="form-group">
                 <label for="id_number">Student ID</label>
                 <input type="text" class="form-control" name="id_number" required>
