@@ -72,9 +72,9 @@
                                 <script>
                                     $(document).ready(function() {
                                         $('#dataTables-example').DataTable({
-                                            pageLength: 4000, // default rows shown per page
+                                            pageLength: 4000, // Initial number of rows displayed
                                             lengthMenu: [
-                                                [10, 25, 50, 100, 500, 1000, 4000],
+                                                [10, 25, 50, 100, 500, 1000, -1],
                                                 [10, 25, 50, 100, 500, 1000, "All"]
                                             ]
                                         });
