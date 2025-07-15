@@ -71,15 +71,21 @@
                                 </table>
                                 <script>
                                     $(document).ready(function() {
-                                        $('#dataTables-example').DataTable({
-                                            pageLength: 4000, // Initial number of rows displayed
+                                        var table = $('#dataTables-example').DataTable({
                                             lengthMenu: [
                                                 [10, 25, 50, 100, 500, 1000, -1],
                                                 [10, 25, 50, 100, 500, 1000, "All"]
-                                            ]
+                                            ],
+                                            pageLength: -1 // Show all records
                                         });
+
+                                        // Optional: Scroll down to the table automatically
+                                        $('html, body').animate({
+                                            scrollTop: $("#dataTables-example").offset().top
+                                        }, 500);
                                     });
                                 </script>
+
 
                             </div>
                             <!-- /.table-responsive -->
