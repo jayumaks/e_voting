@@ -1,32 +1,84 @@
-<?php include ('session.php');?>
-<?php include ('head.php');?>
+<?php include('session.php'); ?>
+<?php include('head.php'); ?>
+<?php require_once '../dbcon.php'; ?>
 
-<?php
-require_once '../dbcon.php';
+<body>
+<div id="wrapper">
+    <?php include('side_bar.php'); ?>
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
-    $file = $_FILES['csv_file']['tmp_name'];
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">Upload Student IDs & Emails</h3>
+            </div>
 
-    if (($handle = fopen($file, 'r')) !== FALSE) {
-        $row = 0;
-        while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
-            if ($row == 0) { $row++; continue; } // Skip header
-            $id = mysqli_real_escape_string($conn, trim($data[0]));
-            $matric = mysqli_real_escape_string($conn, trim($data[1]));
-            $name = mysqli_real_escape_string($conn, trim($data[2]));
-            $year = mysqli_real_escape_string($conn, trim($data[3]));
-            $email = mysqli_real_escape_string($conn, trim($data[4]));
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <?php
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['csv_file'])) {
+                        $file = $_FILES['csv_file']['tmp_name'];
 
-            $conn->query("INSERT INTO ids (id_number, matric_number, names, started, email)
-                          VALUES ('$id', '$matric', '$name', '$year', '$email')
-                          ON DUPLICATE KEY UPDATE email='$email', names='$name', started='$year', matric_number='$matric'");
-        }
-        fclose($handle);
-        echo "<script>alert('Upload successful!'); window.location='add_student_id.php';</script>";
-    }
-}
-?>
-<form method="post" enctype="multipart/form-data">
-  <input type="file" name="csv_file" required>
-  <button type="submit">Upload CSV</button>
-</form>
+                        if (($handle = fopen($file, 'r')) !== FALSE) {
+                            $row = 0;
+                            $successCount = 0;
+                            $errorCount = 0;
+
+                            while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                                if ($row == 0) { $row++; continue; } // Skip header
+
+                                $id     = mysqli_real_escape_string($conn, trim($data[0]));
+                                $matric = mysqli_real_escape_string($conn, trim($data[1]));
+                                $name   = mysqli_real_escape_string($conn, trim($data[2]));
+                                $year   = mysqli_real_escape_string($conn, trim($data[3]));
+                                $email  = mysqli_real_escape_string($conn, trim($data[4]));
+
+                                // Simple email format validation
+                                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                                    $errorCount++;
+                                    continue;
+                                }
+
+                                $insert = $conn->query("INSERT INTO ids (id_number, matric_number, names, started, email)
+                                    VALUES ('$id', '$matric', '$name', '$year', '$email')
+                                    ON DUPLICATE KEY UPDATE
+                                        matric_number = '$matric',
+                                        names = '$name',
+                                        started = '$year',
+                                        email = '$email'");
+
+                                if ($insert) {
+                                    $successCount++;
+                                } else {
+                                    $errorCount++;
+                                }
+                            }
+
+                            fclose($handle);
+
+                            echo "<div class='alert alert-success'>Upload complete: $successCount success, $errorCount failed.</div>";
+                        } else {
+                            echo "<div class='alert alert-danger'>Unable to open the uploaded file.</div>";
+                        }
+                    }
+                    ?>
+
+                    <form method="post" enctype="multipart/form-data" class="form-inline">
+                        <div class="form-group">
+                            <label for="csv_file">Select CSV File:</label>
+                            <input type="file" name="csv_file" id="csv_file" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+
+                    <hr>
+                    <p><strong>CSV Format:</strong> id_number, matric_number, names, started, email</p>
+                    <p><em>Make sure your CSV includes headers in the first row.</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php include('script.php'); ?>
+</body>
+</html>
