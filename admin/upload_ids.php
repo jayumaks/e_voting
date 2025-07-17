@@ -1,6 +1,10 @@
-<?php include('session.php'); ?>
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+include('session.php'); ?>
 <?php include('head.php'); ?>
-<?php require_once '../dbcon.php'; ?>
+<?php require_once 'dbcon.php'; ?>
 
 <body>
 <div id="wrapper">
