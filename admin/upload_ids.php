@@ -26,6 +26,7 @@ include('session.php'); ?>
                             $row = 0;
                             $successCount = 0;
                             $errorCount = 0;
+                            $errorLog = [];
 
                             while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
                                 if ($row == 0) { $row++; continue; } // Skip header
@@ -36,9 +37,18 @@ include('session.php'); ?>
                                 $year   = mysqli_real_escape_string($conn, trim($data[3]));
                                 $email  = mysqli_real_escape_string($conn, trim($data[4]));
 
-                                // Simple email format validation
+                                // Validate required fields
+                                if (!$id || !$email) {
+                                    $errorCount++;
+                                    $errorLog[] = "Row $row: Missing ID or email.";
+                                    $row++;
+                                    continue;
+                                }
+
                                 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                                     $errorCount++;
+                                    $errorLog[] = "Row $row: Invalid email format - $email";
+                                    $row++;
                                     continue;
                                 }
 
@@ -54,12 +64,22 @@ include('session.php'); ?>
                                     $successCount++;
                                 } else {
                                     $errorCount++;
+                                    $errorLog[] = "Row $row: DB Error - " . $conn->error;
                                 }
+                                $row++;
                             }
 
                             fclose($handle);
 
-                            echo "<div class='alert alert-success'>Upload complete: $successCount success, $errorCount failed.</div>";
+                            echo "<div class='alert alert-success'>Upload complete: <strong>$successCount success</strong>, <strong>$errorCount failed</strong>.</div>";
+
+                            if (!empty($errorLog)) {
+                                echo "<div class='alert alert-warning'><strong>Error log:</strong><ul>";
+                                foreach ($errorLog as $error) {
+                                    echo "<li>$error</li>";
+                                }
+                                echo "</ul></div>";
+                            }
                         } else {
                             echo "<div class='alert alert-danger'>Unable to open the uploaded file.</div>";
                         }
