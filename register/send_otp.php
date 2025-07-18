@@ -56,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'aaupayslip@aauekpoma.edu.ng';
-            $mail->Password = 'dvummyogwqcglzgk';
+            $mail->Username = 'no-reply-voting@aauekpoma.edu.ng';
+            $mail->Password = 'liqfsohxgoihfnil';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
 
