@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 session_start();
 require_once '../admin/dbcon.php';
 
+// Load PHPMailer classes
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -16,14 +17,15 @@ require '../mailer/src/Exception.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
     $id_number = trim($_POST['id_number']);
 
+    // Prepare query
     $stmt = $conn->prepare("SELECT email FROM ids WHERE id_number = ?");
     if (!$stmt) {
-        $_SESSION['error'] = "Database query error: " . $conn->error;
+        $_SESSION['error'] = "Database error: " . $conn->error;
         header("Location: index.php");
         exit();
     }
 
-    $stmt->bind_param("s", $id_number); // ✅ Bind the id_number properly
+    $stmt->bind_param("s", $id_number);
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($email);
@@ -37,22 +39,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
             exit();
         }
 
+        // Generate OTP and store in session
         $otp = rand(100000, 999999);
         $_SESSION['otp'] = $otp;
         $_SESSION['email'] = $email;
         $_SESSION['id_number'] = $id_number;
 
+        // Mask the email for display
         $at_pos = strpos($email, "@");
         $masked = substr($email, 0, 2) . str_repeat("*", $at_pos - 2) . substr($email, $at_pos);
         $_SESSION['masked_email'] = $masked;
 
+        // Send email using PHPMailer
         try {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'aaupayslip@aauekpoma.edu.ng'; // Replace
-            $mail->Password = 'dvummyogwqcglzgk';            // Replace
+            $mail->Username = 'aaupayslip@aauekpoma.edu.ng';
+            $mail->Password = 'dvummyogwqcglzgk';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
 
@@ -60,14 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->Subject = "AAU Voting OTP Verification";
-            $mail->Body    = "<p>Your OTP is: <strong>$otp</strong></p><p>Do not share this code with anyone.</p>";
+            $mail->Body = "<p>Your OTP is: <strong>$otp</strong></p><p>Do not share this code with anyone.</p>";
 
             $mail->send();
-
             header("Location: index.php");
             exit();
         } catch (Exception $e) {
             $_SESSION['error'] = "Mailer Error: " . $mail->ErrorInfo;
+            error_log("Mailer Error: " . $mail->ErrorInfo);
             header("Location: index.php");
             exit();
         }
