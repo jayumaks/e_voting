@@ -57,9 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'no-reply-voting@aauekpoma.edu.ng';
-            $mail->Password = 'liqfsohxgoihfnil';
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port = 465;
+            $mail->Password = 'liqfsohxgoihfnil';           // your Gmail App Password
+            $mail->SMTPSecure = 'tls';                       // Use TLS
+            $mail->Port = 587;                               // Port 587 for TLS
+
+
 
             $mail->setFrom('noreply@aauekpoma.edu.ng', 'AAU E-Voting System');
             $mail->addAddress($email);
