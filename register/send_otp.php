@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
             $mail->SMTPSecure = 'tls'; // Try 'ssl' if this fails
             $mail->Port = 587;
 
-            $mail->setFrom('noreply@aauekpoma.edu.ng', 'AAU E-Voting System');
+            $mail->setFrom('no-reply@voting.aauekpoma.edu.ng', 'AAU E-Voting System');
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->Subject = "AAU Voting OTP Verification";
