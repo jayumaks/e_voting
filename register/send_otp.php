@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 session_start();
 require_once '../admin/dbcon.php';
 
-// Load PHPMailer classes
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -17,7 +16,6 @@ require '../mailer/src/Exception.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
     $id_number = trim($_POST['id_number']);
 
-    // Query the student ID from the 'ids' table
     $stmt = $conn->prepare("SELECT email FROM ids WHERE id_number = ?");
     if (!$stmt) {
         $_SESSION['error'] = "Database query error: " . $conn->error;
@@ -25,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
         exit();
     }
 
+    $stmt->bind_param("s", $id_number); // ✅ Bind the id_number properly
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($email);
@@ -38,26 +37,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
             exit();
         }
 
-
-        // Generate and store OTP
         $otp = rand(100000, 999999);
         $_SESSION['otp'] = $otp;
         $_SESSION['email'] = $email;
         $_SESSION['id_number'] = $id_number;
 
-        // Mask the email for UI
         $at_pos = strpos($email, "@");
         $masked = substr($email, 0, 2) . str_repeat("*", $at_pos - 2) . substr($email, $at_pos);
         $_SESSION['masked_email'] = $masked;
 
-        // Send OTP email
         try {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'aaupayslip@aauekpoma.edu.ng'; // Replace with real
-            $mail->Password = 'dvummyogwqcglzgk'; // Replace with app password
+            $mail->Username = 'aaupayslip@aauekpoma.edu.ng'; // Replace
+            $mail->Password = 'dvummyogwqcglzgk';            // Replace
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
 
