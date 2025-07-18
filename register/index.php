@@ -1,9 +1,9 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
 session_start();
 ?>
+
 <?php include('./head.php'); ?>
 <body>
 <?php include('./index_banner.php'); ?>
@@ -11,9 +11,12 @@ session_start();
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-6">
+
+            <!-- Flash Messages -->
             <?php if (isset($_SESSION['error'])): ?>
                 <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
             <?php endif; ?>
+
             <?php if (isset($_SESSION['success'])): ?>
                 <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
             <?php endif; ?>
@@ -24,8 +27,8 @@ session_start();
                 </div>
                 <div class="panel-body">
 
-                <!-- Step 1: Enter Student ID -->
-                <?php if (!isset($_SESSION['otp']) && !isset($_SESSION['otp_verified'])): ?>
+                <!-- STEP 1: Enter Student ID -->
+                <?php if (!isset($_SESSION['otp_verified']) && !isset($_SESSION['masked_email'])): ?>
                     <form method="post" action="send_otp.php">
                         <div class="form-group">
                             <label for="id_number">Student ID</label>
@@ -35,8 +38,8 @@ session_start();
                     </form>
                 <?php endif; ?>
 
-                <!-- Step 2: Enter OTP -->
-                <?php if (isset($_SESSION['otp']) && !isset($_SESSION['otp_verified'])): ?>
+                <!-- STEP 2: Enter OTP -->
+                <?php if (isset($_SESSION['masked_email']) && !isset($_SESSION['otp_verified'])): ?>
                     <form method="post" action="verify_otp.php">
                         <input type="hidden" name="id_number" value="<?= $_SESSION['id_number']; ?>">
                         <p>An OTP has been sent to: <strong><?= $_SESSION['masked_email']; ?></strong></p>
@@ -49,7 +52,7 @@ session_start();
                     </form>
                 <?php endif; ?>
 
-                <!-- Step 3: Complete Registration -->
+                <!-- STEP 3: Registration Form -->
                 <?php if (isset($_SESSION['otp_verified']) && $_SESSION['otp_verified'] === true): ?>
                     <form method="post" action="register_save.php">
                         <input type="hidden" name="id_number" value="<?= $_SESSION['id_number']; ?>">
@@ -86,7 +89,7 @@ session_start();
 
                         <div class="form-group">
                             <label>Department</label>
-                            <input type="text" name="prog_study" class="form-control" placeholder="E.g. MCB, PYS, BCH.." required>
+                            <input type="text" name="prog_study" class="form-control" placeholder="E.g. MCB, PYS, BCH..." required>
                         </div>
 
                         <div class="form-group">
