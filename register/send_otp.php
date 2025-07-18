@@ -54,20 +54,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
         try {
             $mail = new PHPMailer(true);
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = 'mail.aauekpoma.edu.ng'; // or your WGH mail host
             $mail->SMTPAuth = true;
-            $mail->Username = 'no-reply-voting@aauekpoma.edu.ng';
-            $mail->Password = 'liqfsohxgoihfnil';           // your Gmail App Password
-            $mail->SMTPSecure = 'tls';                       // Use TLS
-            $mail->Port = 587;                               // Port 587 for TLS
-
-
+            $mail->Username = 'no-reply@voting.aauekpoma.edu.ng'; // use full email
+            $mail->Password = 'sRoQ$L%2)l#-jVz-'; // real password
+            $mail->SMTPSecure = 'ssl'; // or 'tls' if you use port 587
+            $mail->Port = 465; // or 587 for TLS
 
             $mail->setFrom('noreply@aauekpoma.edu.ng', 'AAU E-Voting System');
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->Subject = "AAU Voting OTP Verification";
             $mail->Body = "<p>Your OTP is: <strong>$otp</strong></p><p>Do not share this code with anyone.</p>";
+
 
             $mail->send();
             header("Location: index.php");
