@@ -1,18 +1,35 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require_once '../admin/dbcon.php';
-require_once '../mailer/src/PHPMailer.php'; // Ensure PHPMailer is correctly included
+
+// Load PHPMailer classes
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../mailer/src/PHPMailer.php';
+require '../mailer/src/SMTP.php';
+require '../mailer/src/Exception.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
     $id_number = trim($_POST['id_number']);
 
     // Query the student ID from the 'ids' table
     $stmt = $conn->prepare("SELECT email FROM ids WHERE id_number = ?");
+    if (!$stmt) {
+        $_SESSION['error'] = "Database query error: " . $conn->error;
+        header("Location: index.php");
+        exit();
+    }
+
     $stmt->bind_param("s", $id_number);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 1) {
+    if ($result && $result->num_rows === 1) {
         $row = $result->fetch_assoc();
         $email = $row['email'];
 
@@ -34,27 +51,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
         $_SESSION['masked_email'] = $masked;
 
         // Send OTP email
-        $mail = new PHPMailer;
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'aaupayslip@aauekpoma.edu.ng'; // Replace
-        $mail->Password = 'dvummyogwqcglzgk';    // Replace
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = 465;
+        try {
+            $mail = new PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'aaupayslip@aauekpoma.edu.ng'; // Replace with real
+            $mail->Password = 'dvummyogwqcglzgk'; // Replace with app password
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465;
 
-        $mail->setFrom('noreply@aauekpoma.edu.ng', 'AAU E-Voting System');
-        $mail->addAddress($email);
-        $mail->isHTML(true);
+            $mail->setFrom('noreply@aauekpoma.edu.ng', 'AAU E-Voting System');
+            $mail->addAddress($email);
+            $mail->isHTML(true);
+            $mail->Subject = "AAU Voting OTP Verification";
+            $mail->Body    = "<p>Your OTP is: <strong>$otp</strong></p><p>Do not share this code with anyone.</p>";
 
-        $mail->Subject = "AAU Voting OTP Verification";
-        $mail->Body    = "<p>Your OTP is: <strong>$otp</strong></p><p>Do not share this code with anyone.</p>";
+            $mail->send();
 
-        if ($mail->send()) {
             header("Location: index.php");
             exit();
-        } else {
-            $_SESSION['error'] = "Failed to send OTP. Please try again.";
+
+        } catch (Exception $e) {
+            $_SESSION['error'] = "Mailer Error: " . $mail->ErrorInfo;
             header("Location: index.php");
             exit();
         }
@@ -64,7 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
         header("Location: index.php");
         exit();
     }
+
 } else {
+    $_SESSION['error'] = "Invalid request.";
     header("Location: index.php");
     exit();
 }
