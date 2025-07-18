@@ -25,19 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
         exit();
     }
 
-    $stmt->bind_param("s", $id_number);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->store_result();
+    $stmt->bind_result($email);
 
-    if ($result && $result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        $email = $row['email'];
+    if ($stmt->num_rows === 1) {
+        $stmt->fetch();
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = "Invalid email address on file.";
             header("Location: index.php");
             exit();
         }
+
 
         // Generate and store OTP
         $otp = rand(100000, 999999);
@@ -71,19 +71,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_number'])) {
 
             header("Location: index.php");
             exit();
-
         } catch (Exception $e) {
             $_SESSION['error'] = "Mailer Error: " . $mail->ErrorInfo;
             header("Location: index.php");
             exit();
         }
-
     } else {
         $_SESSION['error'] = "Student ID not found or email not linked.";
         header("Location: index.php");
         exit();
     }
-
 } else {
     $_SESSION['error'] = "Invalid request.";
     header("Location: index.php");
