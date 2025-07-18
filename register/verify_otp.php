@@ -11,11 +11,19 @@ if (!isset($_POST['otp'])) {
 $user_otp = trim($_POST['otp']);
 $session_otp = $_SESSION['otp'] ?? '';
 
-if ($user_otp !== $session_otp) {
+// Type-safe comparison
+if ((string)$user_otp !== (string)$session_otp) {
     $_SESSION['error'] = "Invalid OTP. Please try again.";
     unset($_SESSION['otp']);
     unset($_SESSION['masked_email']);
     header("Location: index.php");
+    exit();
+}
+
+// Optionally: Check expiration (if stored)
+if (isset($_SESSION['otp_timestamp']) && time() - $_SESSION['otp_timestamp'] > 150) {
+    $_SESSION['error'] = "OTP has expired. Please start over.";
+    header("Location: reset.php");
     exit();
 }
 
