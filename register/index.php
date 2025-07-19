@@ -3,29 +3,25 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 ?>
-
 <?php include('./head.php'); ?>
-<body>
+<body style="background-color: #f5f5f5;">
 <?php include('./index_banner.php'); ?>
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh;">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
 
-            <!-- Flash Messages -->
-            <?php if (isset($_SESSION['error'])): ?>
-                <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-            <?php endif; ?>
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
 
-            <?php if (isset($_SESSION['success'])): ?>
-                <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-            <?php endif; ?>
-
-            <div class="panel panel-default">
-                <div class="panel-heading text-center">
-                    <h4>Voter Registration</h4>
-                </div>
-                <div class="panel-body">
+        <div class="card shadow rounded">
+            <div class="card-header bg-primary text-white text-center">
+                <h4>Voter Registration</h4>
+            </div>
+            <div class="card-body">
 
                 <!-- STEP 1: Enter Student ID -->
                 <?php if (!isset($_SESSION['otp_verified']) && !isset($_SESSION['masked_email'])): ?>
@@ -42,7 +38,7 @@ session_start();
                 <?php if (isset($_SESSION['masked_email']) && !isset($_SESSION['otp_verified'])): ?>
                     <form method="post" action="verify_otp.php">
                         <input type="hidden" name="id_number" value="<?= $_SESSION['id_number']; ?>">
-                        <p>An OTP has been sent to: <strong><?= $_SESSION['masked_email']; ?></strong></p>
+                        <p class="text-center">An OTP has been sent to: <strong><?= $_SESSION['masked_email']; ?></strong></p>
                         <div class="form-group">
                             <label for="otp">Enter OTP</label>
                             <input type="text" name="otp" class="form-control" required>
@@ -109,7 +105,6 @@ session_start();
                     </form>
                 <?php endif; ?>
 
-                </div>
             </div>
         </div>
     </div>
