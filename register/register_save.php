@@ -73,7 +73,8 @@ if ($insert) {
     header("Location: ../login.php");
     exit();
 } else {
-    $_SESSION['error'] = "Something went wrong. Please try again.";
+    $_SESSION['error'] = "Something went wrong: " . $conn->error;  // <-- Shows actual error
     header("Location: index.php");
     exit();
 }
+
