@@ -1,11 +1,11 @@
 <?php
+session_start();
 require_once 'admin/dbcon.php';
 
 if (isset($_POST['login'])) {
     $idno = trim($_POST['idno']);
     $password = $_POST['password'];
 
-    // Prepared statement to prevent SQL injection
     $stmt = $conn->prepare("SELECT * FROM voters WHERE id_number = ?");
     $stmt->bind_param("s", $idno);
     $stmt->execute();
@@ -14,7 +14,6 @@ if (isset($_POST['login'])) {
     if ($result && $result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // Check password using password_verify
         if (password_verify($password, $user['password'])) {
 
             if (strtolower($user['account']) !== 'active') {
@@ -23,7 +22,9 @@ if (isset($_POST['login'])) {
                 echo "<script>alert('Sorry, you have already voted');</script>";
             } else {
                 $_SESSION['voters_id'] = $user['voters_id'];
-                header('Location: vote.php');
+
+                // Use JavaScript redirect for safer flow
+                echo "<script>window.location.href = 'vote.php';</script>";
                 exit();
             }
 
