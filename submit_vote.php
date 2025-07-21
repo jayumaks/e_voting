@@ -1,10 +1,6 @@
 <?php
-echo "<pre>";
-print_r($_SESSION);
-exit();
-
-include("admin/dbcon.php");
 session_start();
+include("admin/dbcon.php");
 
 $voter_id = $_SESSION['voters_id'] ?? null;
 
@@ -22,17 +18,28 @@ if ($voter_id) {
         if (!empty($_SESSION[$position])) {
             $candidate_id = $_SESSION[$position];
 
-            // Replace 'voter_id' with your actual column name
-            $conn->query("INSERT INTO votes (candidate_id, voter_id) VALUES ('$candidate_id', '$voter_id')") or die("Vote insert failed: " . $conn->error);
+            // Use the correct column name: voters_id
+            $stmt = $conn->prepare("INSERT INTO votes (candidate_id, voters_id) VALUES (?, ?)");
+            $stmt->bind_param("ii", $candidate_id, $voter_id);
+            if (!$stmt->execute()) {
+                die("Vote insert failed: " . $stmt->error);
+            }
+            $stmt->close();
         }
     }
 
-    // Update status and timestamp
+    // Mark voter as "Voted" and timestamp
     $now = date("Y-m-d H:i:s");
-    $conn->query("UPDATE voters SET status = 'Voted', date = '$now' WHERE voters_id = '$voter_id'") or die("Status update failed: " . $conn->error);
+    $update = $conn->prepare("UPDATE voters SET status = 'Voted', date = ? WHERE voters_id = ?");
+    $update->bind_param("si", $now, $voter_id);
+    if (!$update->execute()) {
+        die("Status update failed: " . $update->error);
+    }
+    $update->close();
 
+    // Clear session and redirect
     session_destroy();
-    header("location: index.php");
+    header("Location: index.php");
     exit();
 } else {
     echo "Session expired or invalid.";

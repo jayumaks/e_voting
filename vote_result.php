@@ -1,8 +1,8 @@
 <?php
+session_start();
 include('head.php');
 include('sess.php');
 require_once('admin/dbcon.php');
-session_start();
 date_default_timezone_set('Africa/Lagos');
 ?>
 
@@ -25,17 +25,19 @@ $positions = [
 
 $candidateSummary = [];
 
+// Store selections into session
 if (isset($_POST['submit'])) {
     foreach ($positions as $label => $field) {
-        $_SESSION[$field] = $_POST[$field] ?? '';
+        $_SESSION[$field] = $_POST[$field] ?? null;
     }
 }
 
-// Display each selected candidate in a card and build summary
+// Show selected candidates
 foreach ($positions as $label => $field) {
-    if (!empty($_SESSION[$field])) {
+    $candidate_id = $_SESSION[$field] ?? null;
+    if (!empty($candidate_id)) {
         $stmt = $conn->prepare("SELECT firstname, lastname, img FROM candidate WHERE candidate_id = ?");
-        $stmt->bind_param("i", $_SESSION[$field]);
+        $stmt->bind_param("i", $candidate_id);
         $stmt->execute();
         $stmt->bind_result($firstname, $lastname, $img);
         if ($stmt->fetch()) {
@@ -116,19 +118,23 @@ HTML;
             <tbody>
                 <?php
                 foreach ($positions as $label => $field):
-                    if (!empty($_SESSION[$field])) {
-                        $candidate_id = $_SESSION[$field];
-
-                        // Fetch candidate details and vote count
-                        $stmt = $conn->prepare("SELECT firstname, lastname, (SELECT COUNT(*) FROM votes WHERE candidate_id = ?) AS total_votes FROM candidate WHERE candidate_id = ?");
-                        $stmt->bind_param("ii", $candidate_id, $candidate_id);
+                    $candidate_id = $_SESSION[$field] ?? null;
+                    if (!empty($candidate_id)) {
+                        $stmt = $conn->prepare("
+                            SELECT c.firstname, c.lastname, COUNT(v.vote_id) as total_votes
+                            FROM candidate c
+                            LEFT JOIN votes v ON c.candidate_id = v.candidate_id
+                            WHERE c.candidate_id = ?
+                            GROUP BY c.candidate_id
+                        ");
+                        $stmt->bind_param("i", $candidate_id);
                         $stmt->execute();
                         $stmt->bind_result($fname, $lname, $voteCount);
                         if ($stmt->fetch()):
                 ?>
                     <tr>
                         <td><?= htmlspecialchars($label) ?></td>
-                        <td><?= htmlspecialchars($fname . ' ' . $lname) ?></td>
+                        <td><?= htmlspecialchars("$fname $lname") ?></td>
                         <td><?= htmlspecialchars($voteCount) ?></td>
                     </tr>
                 <?php
@@ -142,8 +148,6 @@ HTML;
     </div>
 </div>
 
-
 <?php include('script.php'); include('footer.php'); ?>
 </body>
 </html>
-
