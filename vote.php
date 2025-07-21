@@ -1,5 +1,13 @@
 <?php include('head.php'); ?>
 <?php include("sess.php"); ?>
+<?php
+session_start();
+if (!isset($_SESSION['voters_id'])) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
 
 <body>
 	<?php include 'side_bar.php'; ?>

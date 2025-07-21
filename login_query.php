@@ -15,16 +15,13 @@ if (isset($_POST['login'])) {
         $user = $result->fetch_assoc();
 
         if (password_verify($password, $user['password'])) {
-
             if (strtolower($user['account']) !== 'active') {
                 echo "<script>alert('Your account is not activated');</script>";
             } elseif (strtolower($user['status']) === 'voted') {
                 echo "<script>alert('Sorry, you have already voted');</script>";
             } else {
                 $_SESSION['voters_id'] = $user['voters_id'];
-
-                // Use JavaScript redirect for safer flow
-                echo "<script>window.location.href = 'vote.php';</script>";
+                header("Location: vote.php");
                 exit();
             }
 
