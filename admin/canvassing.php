@@ -52,36 +52,53 @@
                     'Publicity Secretary'
                 ];
 
+                // Display total votes cast
+                $totalVotes = $conn->query("SELECT COUNT(*) as total FROM votes")->fetch_assoc()['total'];
+                echo "<div class='alert alert-info'><strong>Total Votes Cast:</strong> $totalVotes</div>";
+
                 foreach ($positions as $position):
                 ?>
                     <h4 class="mt-4 alert alert-info">📌 Candidates for <?= $position ?></h4>
                     <table class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
-                                <th style="width:45%">Candidate Name</th>
-                                <th style="width:20%">Image</th>
-                                <th style="width:10%">Total Votes</th>
+                                <th style="width:35%">Candidate Name</th>
+                                <th style="width:15%">Image</th>
+                                <th style="width:10%">Votes</th>
+                                <th style="width:20%">% of Total Votes (Position)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $query = $conn->prepare("SELECT candidate_id, firstname, lastname, img FROM candidate WHERE position = ?");
-                            $query->bind_param("s", $position);
-                            $query->execute();
-                            $result = $query->get_result();
-                            while ($row = $result->fetch_assoc()):
-                                $cand_id = $row['candidate_id'];
-                                $voteQ = $conn->query("SELECT COUNT(*) AS total FROM votes WHERE candidate_id = '$cand_id'");
-                                $voteCount = $voteQ->fetch_assoc()['total'];
+                            $stmt = $conn->prepare("SELECT c.candidate_id, c.firstname, c.lastname, c.img, COUNT(v.vote_id) AS total_votes
+                                                    FROM candidate c
+                                                    LEFT JOIN votes v ON c.candidate_id = v.candidate_id
+                                                    WHERE c.position = ?
+                                                    GROUP BY c.candidate_id");
+                            $stmt->bind_param("s", $position);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+
+                            // Calculate total votes for the position
+                            $positionTotalVotes = 0;
+                            $candidates = [];
+                            while ($row = $result->fetch_assoc()) {
+                                $candidates[] = $row;
+                                $positionTotalVotes += $row['total_votes'];
+                            }
+
+                            foreach ($candidates as $row):
+                                $percentage = $positionTotalVotes > 0 ? round(($row['total_votes'] / $positionTotalVotes) * 100, 2) : 0;
                             ?>
                                 <tr>
                                     <td><?= htmlspecialchars($row['firstname'] . ' ' . $row['lastname']) ?></td>
                                     <td><img src="<?= htmlspecialchars($row['img']) ?>" width="50" height="50" style="border-radius:50%"></td>
                                     <td class="text-center">
-                                        <button class="btn btn-primary" disabled><?= $voteCount ?></button>
+                                        <button class="btn btn-primary" disabled><?= $row['total_votes'] ?></button>
                                     </td>
+                                    <td class="text-center"> <?= $percentage ?>%</td>
                                 </tr>
-                            <?php endwhile; ?>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 <?php endforeach; ?>
@@ -93,4 +110,3 @@
 <?php include('script.php'); ?>
 </body>
 </html>
-
