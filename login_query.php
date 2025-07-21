@@ -1,45 +1,34 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
+session_start();
 require_once './admin/dbcon.php';
 
 if (isset($_POST['login'])) {
     $idno = trim($_POST['idno']);
     $password = $_POST['password'];
 
-    // Prepare and execute query to fetch user by ID number
-    $stmt = $conn->prepare("SELECT * FROM voters WHERE id_number = ?");
+    $stmt = $conn->prepare("SELECT voters_id, password, account, status FROM voters WHERE id_number = ?");
     $stmt->bind_param("s", $idno);
     $stmt->execute();
-    $result = $stmt->get_result();
 
-    // Check if user exists
-    if ($result && $result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+    // Use bind_result instead of get_result
+    $stmt->bind_result($voters_id, $hashed_password, $account, $status);
 
-        // Verify password using password_verify if hashed
-        if (password_verify($password, $user['password'])) {
-
-            // Check account status
-            if (strtolower($user['account']) !== 'active') {
-                $_SESSION['error'] = "Your account is not activated.";
-            } elseif (strtolower($user['status']) === 'voted') {
-                $_SESSION['error'] = "Sorry, you have already voted.";
+    if ($stmt->fetch()) {
+        if (password_verify($password, $hashed_password)) {
+            if (strtolower($account) !== 'active') {
+                echo "<script>alert('Your account is not activated');</script>";
+            } elseif (strtolower($status) === 'voted') {
+                echo "<script>alert('Sorry, you have already voted');</script>";
             } else {
-                // Successful login
-                $_SESSION['voters_id'] = $user['voters_id'];
+                $_SESSION['voters_id'] = $voters_id;
                 header("Location: vote.php");
                 exit();
             }
-
         } else {
-            $_SESSION['error'] = "Invalid ID number or password.";
+            echo "<script>alert('Invalid ID number or password');</script>";
         }
-
     } else {
-        $_SESSION['error'] = "Invalid ID number or password.";
+        echo "<script>alert('Invalid ID number or password');</script>";
     }
 
     $stmt->close();
