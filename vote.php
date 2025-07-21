@@ -117,7 +117,7 @@ if (!isset($_SESSION['voters_id'])) {
     <script type="text/javascript">
     // Enforce single selection per position
     document.addEventListener("DOMContentLoaded", function () {
-        const positions = ['pres_id', 'vice_president_id', 'treasurer_id', 'secretary_general_id', 'welfare_id', 'pro_id'];
+        const positions = ['pres_id', 'vp_id', 'tr_id', 'sg_id', 'ta_id', 'pb_id'];
         positions.forEach(function (className) {
             const boxes = document.querySelectorAll(`input.${className}`);
             boxes.forEach(function (box) {
