@@ -1,16 +1,22 @@
 <?php
 session_start();
-require_once './admin/dbcon.php';
+require_once 'admin/dbcon.php';
 
 if (isset($_POST['login'])) {
     $idno = trim($_POST['idno']);
     $password = $_POST['password'];
 
     $stmt = $conn->prepare("SELECT voters_id, password, account, status FROM voters WHERE id_number = ?");
+    if (!$stmt) {
+        echo "<script>alert('Database error: prepare failed');</script>";
+        exit();
+    }
+
     $stmt->bind_param("s", $idno);
     $stmt->execute();
+    $stmt->store_result();
 
-    // Use bind_result instead of get_result
+    // Bind the result variables
     $stmt->bind_result($voters_id, $hashed_password, $account, $status);
 
     if ($stmt->fetch()) {
