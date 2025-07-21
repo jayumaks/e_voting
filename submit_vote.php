@@ -1,45 +1,32 @@
 <?php
 include("admin/dbcon.php");
-session_start();
+session_start(); // Must be before accessing $_SESSION
 
-$voter_id = $_SESSION['voters_id'] ?? null;
+// Store session data in local variables BEFORE destroying session
+$voter_id = $_SESSION['voters_id'];
 
-// Only proceed if voter ID exists
-if (!$voter_id) {
-    header("Location: login.php");
-    exit();
-}
-
-// List all expected session keys and positions
-$votes = [
+$fields = [
     'pres_id',
     'vp_id',
-    'ua_id',
-    'ss_id',
-    'ea_id',
-    'treasurer_id',
+    'tr_id',
     'sg_id',
-    'vtr_id',
     'tas_id',
-    'ps_id',
-    'as_id',
+    'ps_id'
 ];
 
-// Insert votes into the database
-foreach ($votes as $vote_key) {
-    if (!empty($_SESSION[$vote_key])) {
-        $candidate_id = $_SESSION[$vote_key];
-        $conn->query("INSERT INTO `votes` (candidate_id, voters_id) VALUES('$candidate_id', '$voter_id')") or die($conn->error);
+foreach ($fields as $field) {
+    if (!empty($_SESSION[$field])) {
+        $candidate_id = $_SESSION[$field];
+        $conn->query("INSERT INTO votes (vote_id, candidate_id, voters_id) VALUES('', '$candidate_id', '$voter_id')") or die($conn->error);
     }
 }
 
-// Update voter status
-$conn->query("UPDATE `voters` SET `status` = 'Voted' WHERE `voters_id` = '$voter_id'") or die($conn->error);
+// Update voter's status
+$conn->query("UPDATE voters SET status = 'Voted' WHERE voters_id = '$voter_id'") or die($conn->error);
 
-// Clear session only after all operations
+// Now destroy session
 session_destroy();
 
-// Redirect to homepage or confirmation
-header("Location: index.php");
+header("location:index.php");
 exit();
 ?>
