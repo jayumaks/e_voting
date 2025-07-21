@@ -78,22 +78,22 @@ if (isset($_POST['save'])) {
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Position</th>
-                                <th>Party</th>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
-                                <th>Year Level</th>
-                                <th>Gender</th>
-                                <th>Action</th>
-                            </tr>
+                        <tr>
+                            <th>Image</th>
+                            <th>Position</th>
+                            <th>Party</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Year Level</th>
+                            <th>Gender</th>
+                            <th>Action</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $query = $conn->query("SELECT * FROM candidate ORDER BY candidate_id DESC");
-                            while ($row = $query->fetch_array()):
-                                $candidate_id = $row['candidate_id'];
+                        <?php
+                        $query = $conn->query("SELECT * FROM candidate ORDER BY candidate_id DESC");
+                        while ($row = $query->fetch_array()):
+                            $candidate_id = $row['candidate_id'];
                             ?>
                             <tr>
                                 <td><img src="<?= $row['img']; ?>" width="50" height="50" class="img-rounded"></td>
@@ -115,7 +115,7 @@ if (isset($_POST['save'])) {
                                     <?php include('edit_candidate_modal.php'); ?>
                                 </td>
                             </tr>
-                            <?php endwhile; ?>
+                        <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
@@ -126,90 +126,90 @@ if (isset($_POST['save'])) {
 
 </div> <!-- /#wrapper -->
 
-<?php include('add_candidate_modal.php'); ?>
-<?php include('script.php'); ?>
-<?php if (isset($_SESSION['error'])): ?>
-<script>
-    $(document).ready(function () {
-        $('#myModal').modal('show');
-    });
-</script>
-<?php endif; ?>
-
-</body>
-</html>
-
-
-<!-- Add this modal HTML inside your page -->
+<!-- Modal for Add Candidate -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title" id="myModalLabel">Add Candidate</h4>
-			</div>
+            <div class="modal-header">
+                <h4 class="modal-title">Add Candidate</h4>
+            </div>
 
             <div class="modal-body">
-				<form method="post" action="candidate.php" enctype="multipart/form-data">
-					<div class="form-group">
-						<label>Position</label>
-						<select class="form-control" name="position" required>
-							<option selected disabled>Select Candidate Group</option>
-							<option>President</option>
-							<option>Vice President</option>
-							<option>Treasurer</option>
-							<option>Secretary General</option>
-							<option>Welfare</option>
-							<option>PRO</option>
-						</select>
-					</div>
+                <form method="post" action="candidate.php" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Position</label>
+                        <select class="form-control" name="position" required>
+                            <option selected disabled>Select Candidate Group</option>
+                            <option>President</option>
+                            <option>Vice President</option>
+                            <option>Treasurer</option>
+                            <option>Secretary General</option>
+                            <option>Welfare</option>
+                            <option>PRO</option>
+                        </select>
+                    </div>
 
-					<div class="form-group">
-						<label>Party Name</label>
-						<input class="form-control" type="text" name="party" placeholder="Enter party name" required>
-					</div>
+                    <div class="form-group">
+                        <label>Party Name</label>
+                        <input class="form-control" type="text" name="party" placeholder="Enter party name" required>
+                    </div>
 
-					<div class="form-group">
-						<label>Firstname</label>
-						<input class="form-control" type="text" name="firstname" placeholder="Enter firstname" required>
-					</div>
+                    <div class="form-group">
+                        <label>Firstname</label>
+                        <input class="form-control" type="text" name="firstname" placeholder="Enter firstname" required>
+                    </div>
 
-					<div class="form-group">
-						<label>Lastname</label>
-						<input class="form-control" type="text" name="lastname" placeholder="Enter lastname" required>
-					</div>
+                    <div class="form-group">
+                        <label>Lastname</label>
+                        <input class="form-control" type="text" name="lastname" placeholder="Enter lastname" required>
+                    </div>
 
-					<div class="form-group">
-						<label>Year Level</label>
-						<select class="form-control" name="year_level" required>
-							<option selected disabled>Select Level</option>
-							<option>1st Year</option>
-							<option>2nd Year</option>
-							<option>3rd Year</option>
-							<option>4th Year</option>
-						</select>
-					</div>
+                    <div class="form-group">
+                        <label>Year Level</label>
+                        <select class="form-control" name="year_level" required>
+                            <option selected disabled>Select Level</option>
+                            <option>1st Year</option>
+                            <option>2nd Year</option>
+                            <option>3rd Year</option>
+                            <option>4th Year</option>
+                        </select>
+                    </div>
 
-					<div class="form-group">
-						<label>Gender</label>
-						<select class="form-control" name="gender" required>
-							<option selected disabled>Select Gender</option>
-							<option>Male</option>
-							<option>Female</option>
-						</select>
-					</div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select class="form-control" name="gender" required>
+                            <option selected disabled>Select Gender</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
 
-					<div class="form-group">
-						<label>Image</label>
-						<input type="file" name="image" class="form-control" required>
-					</div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input type="file" name="image" class="form-control" required>
+                    </div>
 
-					<button name="save" type="submit" class="btn btn-primary">Save Candidate</button>
-				</form>
-			</div>
+                    <button name="save" type="submit" class="btn btn-primary">Save Candidate</button>
+                </form>
+            </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
+
         </div>
-	</div>
+    </div>
 </div>
+
+<!-- Auto-show modal if error exists -->
+<?php if (isset($_SESSION['error'])): ?>
+    <script>
+        $(document).ready(function () {
+            $('#myModal').modal('show');
+        });
+    </script>
+<?php endif; ?>
+
+<?php include('script.php'); ?>
+</body>
+</html>
