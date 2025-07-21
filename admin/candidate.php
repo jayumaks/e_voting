@@ -128,6 +128,14 @@ if (isset($_POST['save'])) {
 
 <?php include('add_candidate_modal.php'); ?>
 <?php include('script.php'); ?>
+<?php if (isset($_SESSION['error'])): ?>
+<script>
+    $(document).ready(function () {
+        $('#myModal').modal('show');
+    });
+</script>
+<?php endif; ?>
+
 </body>
 </html>
 
@@ -141,7 +149,7 @@ if (isset($_POST['save'])) {
 			</div>
 
             <div class="modal-body">
-				<form method="post" enctype="multipart/form-data">
+				<form method="post" action="candidate.php" enctype="multipart/form-data">
 					<div class="form-group">
 						<label>Position</label>
 						<select class="form-control" name="position" required>
