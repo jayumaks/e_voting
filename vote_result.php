@@ -3,6 +3,7 @@ include('head.php');
 include('sess.php');
 require_once('admin/dbcon.php');
 session_start();
+date_default_timezone_set('Africa/Lagos');
 ?>
 
 <body>
@@ -22,13 +23,15 @@ $positions = [
     'PUBLICITY SECRETARY' => 'ps_id',
 ];
 
+$candidateSummary = [];
+
 if (isset($_POST['submit'])) {
     foreach ($positions as $label => $field) {
         $_SESSION[$field] = $_POST[$field] ?? '';
     }
 }
 
-// Display each candidate chosen
+// Display each selected candidate in a card and build summary
 foreach ($positions as $label => $field) {
     if (!empty($_SESSION[$field])) {
         $stmt = $conn->prepare("SELECT firstname, lastname, img FROM candidate WHERE candidate_id = ?");
@@ -36,6 +39,7 @@ foreach ($positions as $label => $field) {
         $stmt->execute();
         $stmt->bind_result($firstname, $lastname, $img);
         if ($stmt->fetch()) {
+            $candidateSummary[] = [$label, "$firstname $lastname"];
             echo <<<HTML
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm">
@@ -57,8 +61,36 @@ HTML;
 
     </div>
 
+    <!-- Summary Table -->
+    <div class="row justify-content-center">
+        <div class="col-md-8 mt-4">
+            <h4 class="text-center">📝 Summary of Selected Candidates</h4>
+            <table class="table table-bordered table-striped mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Position</th>
+                        <th>Candidate Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($candidateSummary as [$position, $name]): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($position) ?></td>
+                            <td><?= htmlspecialchars($name) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Timestamp -->
+    <div class="text-center text-muted mt-3 mb-5">
+        <p><strong>Vote Preview Generated:</strong> <?= date("l, jS F Y h:i A") ?></p>
+    </div>
+
     <!-- Confirm Buttons -->
-    <div class="text-center mt-5 mb-4">
+    <div class="text-center mb-5">
         <p class="lead">Are you sure you want to <strong>submit</strong> your votes?</p>
         <a href="submit_vote.php" class="btn btn-success btn-lg mx-2">
             <i class="fa fa-check"></i> Yes, Submit
