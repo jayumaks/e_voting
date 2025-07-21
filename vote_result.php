@@ -101,6 +101,49 @@ HTML;
     </div>
 </div>
 
+<!-- Vote Count Summary -->
+<div class="row justify-content-center">
+    <div class="col-md-8 mt-5">
+        <h4 class="text-center">📊 Total Votes for Selected Candidates</h4>
+        <table class="table table-bordered table-hover mt-3">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Position</th>
+                    <th>Candidate Name</th>
+                    <th>Total Votes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($positions as $label => $field):
+                    if (!empty($_SESSION[$field])) {
+                        $candidate_id = $_SESSION[$field];
+
+                        // Fetch candidate details and vote count
+                        $stmt = $conn->prepare("SELECT firstname, lastname, (SELECT COUNT(*) FROM vote WHERE candidate_id = ?) AS total_votes FROM candidate WHERE candidate_id = ?");
+                        $stmt->bind_param("ii", $candidate_id, $candidate_id);
+                        $stmt->execute();
+                        $stmt->bind_result($fname, $lname, $voteCount);
+                        if ($stmt->fetch()):
+                ?>
+                    <tr>
+                        <td><?= htmlspecialchars($label) ?></td>
+                        <td><?= htmlspecialchars($fname . ' ' . $lname) ?></td>
+                        <td><?= htmlspecialchars($voteCount) ?></td>
+                    </tr>
+                <?php
+                        endif;
+                        $stmt->close();
+                    }
+                endforeach;
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 <?php include('script.php'); include('footer.php'); ?>
 </body>
 </html>
+
