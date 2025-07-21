@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once 'admin/dbcon.php';
+require_once './admin/dbcon.php';
 
 if (isset($_POST['login'])) {
     $idno = trim($_POST['idno']);

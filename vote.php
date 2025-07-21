@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'admin/dbcon.php';
+require_once './admin/dbcon.php';
 
 // Redirect if voter is not logged in
 if (!isset($_SESSION['voters_id'])) {
