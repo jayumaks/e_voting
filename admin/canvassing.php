@@ -31,15 +31,8 @@
 					<button type="submit" class="btn btn-success mx-2">Sort</button>
 					<button type="button" onclick="window.print();" class="btn btn-info mx-1"><i class="fa fa-print"></i> Print</button>
 					<a href="excel.php" class="btn btn-info mx-1"><i class="fa fa-download"></i> Export to Excel</a>
-					<button type="button" class="btn btn-danger" onclick="confirmReset()">Reset Votes</button>
+					<a href="reset_votes.php"><button type="button" class="btn btn-danger pull-right" style="margin-right:10px;"><i class="fa fa-refresh"></i> Reset Votes</button></a>
 
-					<script>
-						function confirmReset() {
-							if (confirm("⚠️ Are you sure you want to reset all votes?")) {
-								window.location.href = "reset_votes.php";
-							}
-						}
-					</script>
 
 
 

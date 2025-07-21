@@ -1,24 +1,25 @@
 <?php
+// Enable error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 session_start();
+require_once('dbcon.php'); // FIXED path here
 
-require_once('admin/dbcon.php'); // Adjust if in a different path
-
-// Optional: check if an admin is logged in
-// if (!isset($_SESSION['admin_id'])) { die('Access Denied'); }
+// Optional: Verify if an admin is logged in
+// if (!isset($_SESSION['admin_id'])) { die('Access denied.'); }
 
 try {
-    // Delete all votes
+    // Reset votes
     $conn->query("DELETE FROM votes");
 
-    // Reset all voter statuses
+    // Reset voter status
     $conn->query("UPDATE voters SET status = 'Unvoted'");
 
-    // Redirect with confirmation
-    echo "<script>alert('✅ All votes have been reset.'); window.location = 'canvassing.php';</script>";
+    // Redirect or confirm
+    echo "<script>alert('✅ All votes have been reset successfully.'); window.location.href = 'canvassing.php';</script>";
 } catch (Exception $e) {
-    echo "Reset failed: " . $e->getMessage();
+    echo "❌ Reset failed: " . $e->getMessage();
 }
 ?>
