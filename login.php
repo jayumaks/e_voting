@@ -1,78 +1,77 @@
-<?php 
+<?php
 session_start();
 ob_start();
+include ('head.php');
+?>
 
-include ('head.php'); ?>
 <body>
-  <?php include ('view_banner.php'); ?>
+<?php include ('view_banner.php'); ?>
 
-  <style>
- .login-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 40px; 
-  padding: 0 20px;
-  padding: 20px 20px; 
-} 
+<style>
+  .login-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 20px;
+  }
 
+  .login-panel {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
 
+  .form-heading {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #003366;
+  }
+
+  .form-field {
+    margin-bottom: 20px;
+  }
+
+  .form-panel select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .btn-success {
+    background-color: #003366;
+    border-color: #003366;
+    color: white;
+  }
+
+  .btn-success:hover {
+    background-color: #0055aa;
+    border-color: #0055aa;
+  }
+
+  .btn-block {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 500px) {
     .login-panel {
-      background: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       padding: 20px;
-      width: 100%;
-      max-width: 400px;
     }
-
     .form-heading {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #003366;
+      font-size: 20px;
     }
+  }
+</style>
 
-    .form-field {
-      margin-bottom: 20px;
-    }
-
-    .form-panel select {
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    .btn-success {
-      background-color: #003366;
-      border-color: #003366;
-      color: white;
-    }
-
-    .btn-success:hover {
-      background-color: #0055aa;
-      border-color: #0055aa;
-    }
-    .btn-block {
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-
-    @media (max-width: 500px) {
-      .login-panel {
-        padding: 20px;
-      }
-      .form-heading {
-        font-size: 20px;
-      }
-    }
-  </style>
-
- <div class="login-container">
+<div class="login-container">
   <div class="login-panel">
     <div class="form-panel">
       <div style="text-align: center;">
@@ -83,6 +82,13 @@ include ('head.php'); ?>
           <option selected disabled>Student Voter</option>
         </select>
       </div>
+
+      <!-- Display Error Message if exists -->
+      <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger text-center">
+          <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+        </div>
+      <?php endif; ?>
 
       <form role="form" method="post" enctype="multipart/form-data" class="index-form">
         <div class="form-heading text-center">Student Login</div>
@@ -108,15 +114,14 @@ include ('head.php'); ?>
   </div>
 </div>
 
+<?php include ('script.php'); ?>
 
-  <?php include ('script.php'); ?>
+<script type="text/javascript">
+  function page(src) {
+    window.location = src;
+  }
+</script>
 
-  <script type="text/javascript">
-    function page(src) {
-      window.location = src;
-    }
-  </script>
-
-  <?php include ('footer.php'); ?>
+<?php include ('footer.php'); ?>
 </body>
 </html>
