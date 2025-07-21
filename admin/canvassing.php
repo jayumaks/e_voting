@@ -1,108 +1,107 @@
 <?php include('session.php'); ?>
 <?php include('head.php'); ?>
-<?php include('admin/dbcon.php'); ?>
 <body>
 <div id="wrapper">
 
-    <!-- Navigation -->
     <?php include('side_bar.php'); ?>
-
-    <!-- Page Content -->
     <div id="page-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <h3 class="page-header text-center">🗳️ General Election Report</h3>
-                <hr/>
-            </div>
-        </div>
+        <div class="container-fluid">
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="alert alert-success">Election Result Summary</h4>
+            <h3 class="text-center mt-4"><i class="fa fa-briefcase"></i> General Election Report</h3>
+            <hr>
+
+            <div class="alert alert-success">
+                <strong>Election Result Summary</strong>
             </div>
 
-            <div class="panel-body">
-                <!-- Sort Form -->
-                <form method="post" action="sort.php" class="form-inline mb-4">
-                    <select name="position" id="position" class="form-control mr-2">
-                        <option readonly>----Sort by Position----</option>
-                        <option>President</option>
-                        <option>Vice President</option>
-                        <option>Treasurer</option>
-                        <option>Secretary General</option>
-                        <option>Welfare</option>
-                        <option>Publicity Secretary</option>
-                    </select>
-                    <button type="submit" class="btn btn-success mr-2">Sort</button>
-                    <button type="button" onclick="window.print();" class="btn btn-info mr-2">
-                        <i class="fa fa-print"></i> Print
-                    </button>
-                    <a href="excel.php" class="btn btn-info">
-                        <i class="fa fa-file-excel-o"></i> Export to Excel
-                    </a>
-                </form>
+            <!-- Sorting and Export Buttons -->
+            <form method="post" action="sort.php" class="form-inline mb-3">
+                <select name="position" class="form-control" style="width: 250px;">
+                    <option readonly>----Sort by Position----</option>
+                    <option></option>
+                    <option>President</option>
+                    <option>Vice President</option>
+                    <option>Treasurer</option>
+                    <option>Secretary General</option>
+                    <option>Welfare</option>
+                    <option>Publicity Secretary</option>
+                </select>
+                <button type="submit" class="btn btn-success mx-2">Sort</button>
+                <button type="button" onclick="window.print();" class="btn btn-info mx-1"><i class="fa fa-print"></i> Print</button>
+                <a href="excel.php" class="btn btn-info mx-1"><i class="fa fa-download"></i> Export to Excel</a>
+            </form>
 
-                <?php
-                $positions = [
-                    'President',
-                    'Vice President',
-                    'Treasurer',
-                    'Secretary General',
-                    'Welfare',
-                    'Publicity Secretary'
-                ];
+            <?php
+            require 'dbcon.php';
 
-                // Display total votes cast
-                $totalVotes = $conn->query("SELECT COUNT(*) as total FROM votes")->fetch_assoc()['total'];
-                echo "<div class='alert alert-info'><strong>Total Votes Cast:</strong> $totalVotes</div>";
+            // Total votes cast overall
+            $totalVotesCast = $conn->query("SELECT COUNT(*) as total FROM votes")->fetch_assoc()['total'];
+            echo "<div class='alert alert-info'><strong>Total Votes Cast:</strong> {$totalVotesCast}</div>";
 
-                foreach ($positions as $position):
-                ?>
-                    <h4 class="mt-4 alert alert-info">📌 Candidates for <?= $position ?></h4>
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
+            // Positions to report
+            $positions = ['President', 'Vice President', 'Treasurer', 'Secretary General', 'Welfare', 'Publicity Secretary'];
+
+            foreach ($positions as $position):
+
+                // Total votes for current position
+                $positionVotesResult = $conn->query("
+                    SELECT COUNT(*) as total
+                    FROM votes
+                    WHERE candidate_id IN (
+                        SELECT candidate_id FROM candidate WHERE position = '$position'
+                    )
+                ");
+                $positionTotalVotes = $positionVotesResult->fetch_assoc()['total'];
+            ?>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <i class="fa fa-thumbtack"></i> Candidates for <strong><?= strtoupper($position) ?></strong>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead class="bg-primary text-white">
                             <tr>
-                                <th style="width:35%">Candidate Name</th>
-                                <th style="width:15%">Image</th>
-                                <th style="width:10%">Votes</th>
-                                <th style="width:20%">% of Total Votes (Position)</th>
+                                <th>Candidate Name</th>
+                                <th>Image</th>
+                                <th>Votes</th>
+                                <th>% of Total Votes (Position)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $stmt = $conn->prepare("SELECT c.candidate_id, c.firstname, c.lastname, c.img, COUNT(v.vote_id) AS total_votes
-                                                    FROM candidate c
-                                                    LEFT JOIN votes v ON c.candidate_id = v.candidate_id
-                                                    WHERE c.position = ?
-                                                    GROUP BY c.candidate_id");
-                            $stmt->bind_param("s", $position);
-                            $stmt->execute();
-                            $result = $stmt->get_result();
+                        <?php
+                        $query = $conn->query("
+                            SELECT
+                                c.candidate_id,
+                                c.firstname,
+                                c.lastname,
+                                c.img,
+                                COUNT(v.vote_id) AS votes
+                            FROM candidate c
+                            LEFT JOIN votes v ON c.candidate_id = v.candidate_id
+                            WHERE c.position = '$position'
+                            GROUP BY c.candidate_id
+                        ");
 
-                            // Calculate total votes for the position
-                            $positionTotalVotes = 0;
-                            $candidates = [];
-                            while ($row = $result->fetch_assoc()) {
-                                $candidates[] = $row;
-                                $positionTotalVotes += $row['total_votes'];
-                            }
-
-                            foreach ($candidates as $row):
-                                $percentage = $positionTotalVotes > 0 ? round(($row['total_votes'] / $positionTotalVotes) * 100, 2) : 0;
-                            ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($row['firstname'] . ' ' . $row['lastname']) ?></td>
-                                    <td><img src="<?= htmlspecialchars($row['img']) ?>" width="50" height="50" style="border-radius:50%"></td>
-                                    <td class="text-center">
-                                        <button class="btn btn-primary" disabled><?= $row['total_votes'] ?></button>
-                                    </td>
-                                    <td class="text-center"> <?= $percentage ?>%</td>
-                                </tr>
-                            <?php endforeach; ?>
+                        while ($row = $query->fetch_assoc()):
+                            $fullname = $row['firstname'] . " " . $row['lastname'];
+                            $votes = $row['votes'];
+                            $percentage = ($positionTotalVotes > 0) ? round(($votes / $positionTotalVotes) * 100, 2) : 0;
+                        ?>
+                            <tr>
+                                <td><?= htmlspecialchars($fullname) ?></td>
+                                <td><img src="<?= htmlspecialchars($row['img']) ?>" width="40" height="40" style="border-radius: 50%;"></td>
+                                <td><button class="btn btn-sm btn-primary" disabled><?= $votes ?></button></td>
+                                <td><?= $percentage ?>%</td>
+                            </tr>
+                        <?php endwhile; ?>
                         </tbody>
                     </table>
-                <?php endforeach; ?>
+                </div>
             </div>
+
+            <?php endforeach; ?>
+
         </div>
     </div>
 </div>
