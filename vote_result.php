@@ -120,7 +120,7 @@ HTML;
                         $candidate_id = $_SESSION[$field];
 
                         // Fetch candidate details and vote count
-                        $stmt = $conn->prepare("SELECT firstname, lastname, (SELECT COUNT(*) FROM vote WHERE candidate_id = ?) AS total_votes FROM candidate WHERE candidate_id = ?");
+                        $stmt = $conn->prepare("SELECT firstname, lastname, (SELECT COUNT(*) FROM votes WHERE candidate_id = ?) AS total_votes FROM candidate WHERE candidate_id = ?");
                         $stmt->bind_param("ii", $candidate_id, $candidate_id);
                         $stmt->execute();
                         $stmt->bind_result($fname, $lname, $voteCount);

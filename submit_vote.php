@@ -1,4 +1,8 @@
 <?php
+echo "<pre>";
+print_r($_SESSION);
+exit();
+
 include("admin/dbcon.php");
 session_start();
 
@@ -17,13 +21,15 @@ if ($voter_id) {
     foreach ($positions as $position) {
         if (!empty($_SESSION[$position])) {
             $candidate_id = $_SESSION[$position];
-            $conn->query("INSERT INTO votes (candidate_id, voters_id) VALUES ('$candidate_id', '$voter_id')") or die($conn->error);
+
+            // Replace 'voter_id' with your actual column name
+            $conn->query("INSERT INTO votes (candidate_id, voter_id) VALUES ('$candidate_id', '$voter_id')") or die("Vote insert failed: " . $conn->error);
         }
     }
 
-    // Update status and record vote timestamp
+    // Update status and timestamp
     $now = date("Y-m-d H:i:s");
-    $conn->query("UPDATE voters SET status = 'Voted', date = '$now' WHERE voters_id = '$voter_id'") or die($conn->error);
+    $conn->query("UPDATE voters SET status = 'Voted', date = '$now' WHERE voters_id = '$voter_id'") or die("Status update failed: " . $conn->error);
 
     session_destroy();
     header("location: index.php");
@@ -31,4 +37,3 @@ if ($voter_id) {
 } else {
     echo "Session expired or invalid.";
 }
-?>
