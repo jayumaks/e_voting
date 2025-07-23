@@ -6,7 +6,6 @@ header("Refresh: 60"); // Auto-refresh every 60 seconds
 ?>
 
 <body>
-<?php include('side_bar.php'); ?>
 
 <div class="container-fluid mt-4">
     <h2 class="text-center mb-4">📊 Live Vote Results</h2>
