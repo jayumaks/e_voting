@@ -39,7 +39,7 @@ if ($voter_id) {
 
     // Clear session and redirect
     session_destroy();
-    header("Location: index.php");
+    header("Location: live_results.php");
     exit();
 } else {
     echo "Session expired or invalid.";
