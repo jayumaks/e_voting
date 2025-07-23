@@ -85,7 +85,7 @@ if ($insert) {
             <p>Your registration was successful.</p>
             <p><strong>Your login password:</strong> <code>$password</code></p>
             <p>Please keep it safe. Do not share with anyone.</p>
-            <br><p>Regards,<br>AAU E-Voting Team</p>";
+            <br><p>Regards,<br>AAU E-Voting Team<br>A PRODUCT OF IMPACT 7</p>";
 
         $mail->send();
 

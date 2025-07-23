@@ -110,6 +110,7 @@
       <li><a href="../index.php">Home</a></li>
       <li><a href="../view.php">Candidates</a></li>
       <li><a href="../voters.php">Voter List</a></li>
+       <li><a href="../live_results.php">Live Results</a></li>
     </ul>
   </nav>
 </div>
