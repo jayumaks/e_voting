@@ -15,7 +15,7 @@ date_default_timezone_set('Africa/Lagos');
 
 <?php
 $positions = [
-    'PRESIDENT' => 'pres_id',
+    'FACULTY CLASS REP OF THE YEAR(FBMS)' => 'pres_id',
     'VICE PRESIDENT' => 'vp_id',
     'TREASURER' => 'treasurer_id',
     'SECRETARY GENERAL' => 'sg_id',
