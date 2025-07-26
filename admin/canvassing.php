@@ -20,7 +20,7 @@
 					<select name="position" class="form-control" style="width: 250px;">
 						<option readonly>----Sort by Position----</option>
 						<option></option>
-						<option>President</option>
+						<option>FACULTY CLASS REP OF THE YEAR(FBMS)</option>
 						<option>Vice President</option>
 						<option>Treasurer</option>
 						<option>Secretary General</option>
@@ -47,7 +47,7 @@
 				echo "<div class='alert alert-info'><strong>Total Votes Cast:</strong> {$totalVotesCast}</div>";
 
 				// Positions to report
-				$positions = ['President', 'Vice President', 'Treasurer', 'Secretary General', 'Welfare', 'Publicity Secretary'];
+				$positions = ['FACULTY CLASS REP OF THE YEAR(FBMS)', 'Vice President', 'Treasurer', 'Secretary General', 'Welfare', 'Publicity Secretary'];
 
 				foreach ($positions as $position):
 
