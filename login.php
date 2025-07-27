@@ -111,6 +111,12 @@ if (isset($_POST['login'])) {
           <label for="password">Password:</label>
           <input class="form-control" name="password" type="password" required placeholder="Enter Password">
         </div>
+<script>
+  function togglePassword() {
+    const pwd = document.getElementById("password");
+    pwd.type = pwd.type === "password" ? "text" : "password";
+  }
+</script>
 
         <div style="text-align: center;">
           <button class="btn btn-lg btn-success btn-block" name="login">Login</button>
