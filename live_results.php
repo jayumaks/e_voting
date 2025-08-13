@@ -29,7 +29,7 @@ header("Refresh: 60"); // Auto-refresh every 60 seconds
     $rows = [];
 
     $positionColors = [
-        'FACULTY CLASS REP OF THE YEAR(FBMS)' => 'rgba(54, 162, 235, 0.8)',
+        'President' => 'rgba(54, 162, 235, 0.8)',
         'Vice President' => 'rgba(255, 99, 132, 0.8)',
         'Treasurer' => 'rgba(255, 206, 86, 0.8)',
         'Secretary General' => 'rgba(75, 192, 192, 0.8)',

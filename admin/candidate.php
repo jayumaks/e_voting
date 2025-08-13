@@ -140,7 +140,7 @@ if (isset($_POST['save'])) {
                         <label>Position</label>
                         <select class="form-control" name="position" required>
                             <option selected disabled>Select Candidate Group</option>
-                            <option>FACULTY CLASS REP OF THE YEAR(FBMS)</option>
+                            <option>President</option>
                             <option>Vice President</option>
                             <option>Treasurer</option>
                             <option>Secretary General</option>

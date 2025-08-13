@@ -23,7 +23,7 @@ include('head.php');
 
 						<?php
 						$positions = [
-							'FACULTY CLASS REP OF THE YEAR(FBMS)' => 'pres_id',
+							'President' => 'pres_id',
 							'Vice President' => 'vp_id',
 							'Treasurer' => 'treasurer_id',
 							'Secretary General' => 'sg_id',
