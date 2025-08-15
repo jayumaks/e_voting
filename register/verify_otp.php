@@ -21,7 +21,7 @@ if ((string)$user_otp !== (string)$session_otp) {
 }
 
 // Optionally: Check expiration (if stored)
-if (isset($_SESSION['otp_timestamp']) && time() - $_SESSION['otp_timestamp'] > 150) {
+if (isset($_SESSION['otp_timestamp']) && time() - $_SESSION['otp_timestamp'] > 86400) {
     $_SESSION['error'] = "OTP has expired. Please start over.";
     header("Location: reset.php");
     exit();
