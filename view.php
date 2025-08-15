@@ -5,7 +5,7 @@
 
     <div id="wrapper">
 
-      
+
               <?php include ('view_banner.php');?>
         <!-- Page Content -->
           <!-- Navigation -->
@@ -17,23 +17,23 @@
                 <option disabled selected>Select Candidate Group</option>
                 <option value = "candidates/pres.php">President</option>
                 <option value = "candidates/vp.php">Vice President</option>
-                
+
                 <option value = "candidates/tr.php">Treasurer</option>
-                
+
                 <option value = "candidates/sg.php">Secretary General</option>
-                <option value = "candidates/ta.php">Welfare</option> 
+                <option value = "candidates/ta.php">Welfare</option>
                 <option value = "candidates/pb.php">PRO</option>
-               
+
                 </select>
             </center>
 
-    </heading> 
+    </heading>
         </div>
         <!-- /#page-wrapper -->
 
     </div>
     <!-- /#wrapper -->
-    <?php    
+    <?php
         include ('footer.php');
         ?>
 
