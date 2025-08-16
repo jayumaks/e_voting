@@ -40,7 +40,7 @@
                         <?php
                         require 'admin/dbcon.php';
 
-                        $query = $conn->query("SELECT * FROM voters ORDER BY voters_id ASC");
+                        $query = $conn->query("SELECT * FROM voters ORDER BY voters_id DESC");
                         while ($row1 = $query->fetch_array()) {
                             $voters_id = $row1['voters_id'];
                         ?>
